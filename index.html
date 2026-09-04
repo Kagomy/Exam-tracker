@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>KIMI Exam Tracker</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet" />
+    <title>Kimi Notes – Exam Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
     <style>
-        /* ========================================
-                   RESET & BASE
-                ======================================== */
+        /* ============================================================
+           RESET & BASE – Space Vibe 🌌
+           ============================================================ */
         * {
             margin: 0;
             padding: 0;
@@ -16,30 +16,88 @@
         }
 
         body {
-            font-family: 'Cairo', sans-serif;
-            background: #0b0f1a;
-            color: #fff;
+            font-family: 'Inter', sans-serif;
+            background: #0a0e1a;
+            color: #f0f4ff;
             min-height: 100vh;
             padding: 20px;
+            background-image:
+                radial-gradient(2px 2px at 20% 30%, #ffffff33, transparent),
+                radial-gradient(2px 2px at 40% 70%, #ffffff22, transparent),
+                radial-gradient(2px 2px at 60% 20%, #ffffff44, transparent),
+                radial-gradient(2px 2px at 80% 80%, #ffffff22, transparent),
+                radial-gradient(1px 1px at 10% 90%, #ffffff33, transparent),
+                radial-gradient(1px 1px at 90% 10%, #ffffff44, transparent),
+                radial-gradient(1px 1px at 50% 50%, #ffffff11, transparent);
+            background-size: 100% 100%;
+        }
+
+        /* نجوم متحركة خفيفة */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(1px 1px at 15% 25%, #fff, transparent),
+                radial-gradient(1px 1px at 35% 65%, #fff, transparent),
+                radial-gradient(1px 1px at 55% 15%, #fff, transparent),
+                radial-gradient(1px 1px at 75% 85%, #fff, transparent),
+                radial-gradient(1px 1px at 95% 45%, #fff, transparent),
+                radial-gradient(1px 1px at 5% 75%, #fff, transparent),
+                radial-gradient(1px 1px at 45% 95%, #fff, transparent),
+                radial-gradient(1px 1px at 85% 5%, #fff, transparent);
+            background-size: 200px 200px;
+            opacity: 0.3;
+            pointer-events: none;
+            z-index: 0;
+            animation: twinkle 4s ease-in-out infinite alternate;
+        }
+
+        @keyframes twinkle {
+            0% {
+                opacity: 0.2;
+            }
+            100% {
+                opacity: 0.6;
+            }
         }
 
         .app-container {
             max-width: 1400px;
             margin: 0 auto;
+            position: relative;
+            z-index: 1;
         }
 
-        /* ========================================
-                   HEADER
-                ======================================== */
+        /* ============================================================
+           GLASSMORPHISM UTILITY
+           ============================================================ */
+        .glass {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 30px;
-            background: #1a2332;
-            border-radius: 20px;
+            padding: 18px 30px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
             margin-bottom: 30px;
-            border: 1px solid #2a3a55;
             flex-wrap: wrap;
             gap: 15px;
         }
@@ -47,82 +105,93 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 14px;
         }
 
         .logo-icon {
-            font-size: 36px;
+            font-size: 38px;
+            filter: drop-shadow(0 0 20px rgba(100, 150, 255, 0.3));
         }
 
         .logo-text {
             font-size: 28px;
             font-weight: 900;
-            background: linear-gradient(135deg, #f0c27f, #fc5c7d);
+            letter-spacing: -0.5px;
+        }
+
+        .logo-text .highlight {
+            background: linear-gradient(135deg, #7eb8ff, #a78bfa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .logo-text small {
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 400;
-            -webkit-text-fill-color: #b0c4de;
+            -webkit-text-fill-color: #8892b0;
+            letter-spacing: 1px;
         }
 
         .header-stats {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
             flex-wrap: wrap;
         }
 
-        .stat-item {
+        .stat-pill {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 6px 18px;
+            border-radius: 40px;
             display: flex;
-            flex-direction: column;
             align-items: center;
-            background: #111827;
-            padding: 6px 16px;
-            border-radius: 12px;
-            border: 1px solid #2a3a55;
+            gap: 8px;
+            font-size: 14px;
+            font-weight: 600;
         }
 
-        .stat-item .label {
-            font-size: 11px;
-            color: #b0c4de;
-        }
-
-        .stat-item .value {
-            font-size: 20px;
+        .stat-pill .num {
+            color: #7eb8ff;
             font-weight: 900;
-            color: #00d2ff;
+            font-size: 18px;
         }
 
         .btn-export,
         .btn-import {
-            background: #2a3a55;
-            border: none;
-            color: #fff;
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ccd6f6;
             padding: 8px 18px;
-            border-radius: 12px;
+            border-radius: 40px;
             cursor: pointer;
-            font-family: 'Cairo', sans-serif;
-            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
             transition: 0.3s;
-            font-size: 14px;
         }
 
         .btn-export:hover,
         .btn-import:hover {
-            background: #3b4e6b;
-            transform: scale(1.05);
+            background: rgba(126, 184, 255, 0.15);
+            border-color: #7eb8ff;
+            color: #fff;
+            transform: translateY(-2px);
         }
 
-        /* ========================================
-                   SUBJECTS
-                ======================================== */
-        .subjects-section h2 {
-            font-size: 24px;
+        /* ============================================================
+           SUBJECTS
+           ============================================================ */
+        .section-title {
+            font-size: 22px;
+            font-weight: 700;
             margin-bottom: 16px;
-            color: #f0c27f;
+            color: #ccd6f6;
+            letter-spacing: -0.3px;
+        }
+
+        .section-title span {
+            color: #7eb8ff;
         }
 
         .subjects-grid {
@@ -133,171 +202,282 @@
         }
 
         .subject-card {
-            background: #1a2332;
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid #2a3a55;
-            transition: 0.3s;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 22px;
+            transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .subject-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(126, 184, 255, 0.03), transparent 60%);
+            pointer-events: none;
         }
 
         .subject-card:hover {
-            transform: translateY(-5px);
-            border-color: #00d2ff;
-            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.1);
+            transform: translateY(-6px);
+            border-color: rgba(126, 184, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5), 0 0 40px rgba(126, 184, 255, 0.05);
         }
 
-        .subject-card .header {
+        .subject-card .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 12px;
-            background: transparent;
-            border: none;
-            padding: 0;
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
         }
 
         .subject-card .name {
             font-size: 20px;
-            font-weight: 900;
+            font-weight: 700;
+            color: #f0f4ff;
         }
 
         .subject-card .emoji {
-            font-size: 32px;
+            font-size: 30px;
+            filter: drop-shadow(0 0 15px rgba(126, 184, 255, 0.2));
         }
 
-        .subject-card .stats {
+        .subject-card .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 8px;
-            margin: 12px 0;
+            margin: 14px 0;
+            position: relative;
+            z-index: 1;
         }
 
-        .subject-card .stats .s {
-            background: #111827;
-            padding: 8px;
-            border-radius: 10px;
+        .subject-card .stats-grid .s {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 14px;
+            padding: 8px 10px;
             text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.04);
         }
 
-        .subject-card .stats .s .num {
+        .subject-card .stats-grid .s .num {
             font-size: 20px;
             font-weight: 900;
-            color: #00d2ff;
+            color: #7eb8ff;
+            display: block;
         }
 
-        .subject-card .stats .s .lbl {
-            font-size: 12px;
-            color: #b0c4de;
+        .subject-card .stats-grid .s .lbl {
+            font-size: 11px;
+            color: #8892b0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .subject-card .progress-bar {
             width: 100%;
-            height: 6px;
-            background: #2a3a55;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 10px;
             overflow: hidden;
-            margin-top: 8px;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
         }
 
         .subject-card .progress-fill {
             height: 100%;
             border-radius: 10px;
-            background: linear-gradient(90deg, #f0c27f, #fc5c7d);
-            transition: width 0.5s ease;
+            background: linear-gradient(90deg, #7eb8ff, #a78bfa);
+            transition: width 0.6s ease;
         }
 
         .subject-card .rank {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
-            margin-top: 8px;
-            padding: 4px 12px;
-            border-radius: 20px;
+            margin-top: 10px;
+            padding: 4px 14px;
+            border-radius: 40px;
             display: inline-block;
+            position: relative;
+            z-index: 1;
         }
 
         .rank-master {
-            background: #f0c27f44;
-            color: #f0c27f;
+            background: rgba(167, 139, 250, 0.2);
+            color: #a78bfa;
+            border: 1px solid rgba(167, 139, 250, 0.2);
         }
         .rank-excellent {
-            background: #00d2ff44;
-            color: #00d2ff;
+            background: rgba(126, 184, 255, 0.2);
+            color: #7eb8ff;
+            border: 1px solid rgba(126, 184, 255, 0.2);
         }
         .rank-strong {
-            background: #4ade8044;
-            color: #4ade80;
+            background: rgba(52, 211, 153, 0.2);
+            color: #34d399;
+            border: 1px solid rgba(52, 211, 153, 0.2);
         }
         .rank-building {
-            background: #fc5c7d44;
-            color: #fc5c7d;
+            background: rgba(251, 191, 36, 0.2);
+            color: #fbbf24;
+            border: 1px solid rgba(251, 191, 36, 0.2);
+        }
+
+        .test-list {
+            margin-top: 12px;
+            max-height: 180px;
+            overflow-y: auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .test-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 6px 12px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 10px;
+            margin-bottom: 4px;
+            font-size: 13px;
+            border-left: 2px solid #7eb8ff;
+        }
+
+        .test-item .status-Done {
+            color: #34d399;
+        }
+        .test-item .status-Planned {
+            color: #fbbf24;
+        }
+        .test-item .status-Review {
+            color: #f87171;
+        }
+
+        .btn-delete-test {
+            background: none;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            font-size: 14px;
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+
+        .btn-delete-test:hover {
+            opacity: 1;
+        }
+
+        .btn-delete-subject {
+            background: none;
+            border: none;
+            color: #f87171;
+            cursor: pointer;
+            font-size: 18px;
+            opacity: 0.3;
+            transition: 0.3s;
+        }
+
+        .btn-delete-subject:hover {
+            opacity: 1;
         }
 
         .btn-add-subject {
-            background: #2a3a55;
-            border: 2px dashed #3b4e6b;
-            color: #b0c4de;
+            background: rgba(255, 255, 255, 0.04);
+            border: 2px dashed rgba(255, 255, 255, 0.1);
+            color: #8892b0;
             padding: 16px 30px;
-            border-radius: 16px;
+            border-radius: 20px;
             cursor: pointer;
-            font-family: 'Cairo', sans-serif;
-            font-size: 18px;
-            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
             width: 100%;
             transition: 0.3s;
             margin-bottom: 30px;
         }
 
         .btn-add-subject:hover {
-            background: #3b4e6b;
-            border-color: #00d2ff;
-            color: #fff;
+            background: rgba(255, 255, 255, 0.06);
+            border-color: #7eb8ff;
+            color: #f0f4ff;
         }
 
-        /* ========================================
-                   STATS CARDS
-                ======================================== */
+        .btn-add-test {
+            background: rgba(126, 184, 255, 0.08);
+            border: 1px solid rgba(126, 184, 255, 0.15);
+            color: #7eb8ff;
+            padding: 6px 16px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-add-test:hover {
+            background: rgba(126, 184, 255, 0.15);
+            transform: scale(1.02);
+        }
+
+        /* ============================================================
+           STATS CARDS
+           ============================================================ */
         .stats-cards {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
             gap: 16px;
             margin-bottom: 30px;
         }
 
         .stat-card {
-            background: #1a2332;
-            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 20px;
             padding: 20px;
             text-align: center;
-            border: 1px solid #2a3a55;
+            transition: 0.3s;
+        }
+
+        .stat-card:hover {
+            border-color: rgba(126, 184, 255, 0.2);
         }
 
         .stat-card .icon {
-            font-size: 32px;
+            font-size: 28px;
         }
 
         .stat-card .number {
             font-size: 32px;
             font-weight: 900;
             display: block;
-            color: #f0c27f;
-            margin: 8px 0;
+            color: #7eb8ff;
+            margin: 6px 0;
         }
 
         .stat-card .lbl {
-            font-size: 14px;
-            color: #b0c4de;
+            font-size: 12px;
+            color: #8892b0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        /* ========================================
-                   BADGES
-                ======================================== */
-        .badges-section h2 {
-            font-size: 24px;
-            margin-bottom: 16px;
-            color: #f0c27f;
-        }
-
+        /* ============================================================
+           BADGES
+           ============================================================ */
         .badges-grid {
             display: flex;
             flex-wrap: wrap;
@@ -306,12 +486,12 @@
         }
 
         .badge-item {
-            background: #1a2332;
-            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 10px 22px;
             border-radius: 40px;
-            border: 1px solid #2a3a55;
-            font-size: 16px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 600;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -319,19 +499,19 @@
         }
 
         .badge-item.unlocked {
-            border-color: #f0c27f;
-            background: #f0c27f22;
-            color: #f0c27f;
+            border-color: rgba(167, 139, 250, 0.3);
+            background: rgba(167, 139, 250, 0.08);
+            color: #c4b5fd;
         }
 
         .badge-item.locked {
-            opacity: 0.4;
-            filter: grayscale(1);
+            opacity: 0.3;
+            filter: grayscale(0.8);
         }
 
-        /* ========================================
-                   ANALYSIS
-                ======================================== */
+        /* ============================================================
+           ANALYSIS
+           ============================================================ */
         .analysis-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -346,15 +526,19 @@
         }
 
         .chart-container {
-            background: #1a2332;
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid #2a3a55;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 24px;
         }
 
         .chart-container h3 {
-            color: #f0c27f;
-            margin-bottom: 12px;
+            color: #ccd6f6;
+            margin-bottom: 16px;
+            font-weight: 600;
+            font-size: 18px;
         }
 
         .chart-bar {
@@ -366,14 +550,16 @@
 
         .chart-bar .lbl {
             width: 80px;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #8892b0;
             text-align: right;
         }
 
         .chart-bar .line {
             flex: 1;
-            height: 14px;
-            background: #2a3a55;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.06);
             border-radius: 20px;
             overflow: hidden;
         }
@@ -383,26 +569,30 @@
             border-radius: 20px;
             width: 0%;
             transition: width 1s ease;
-            background: linear-gradient(90deg, #f0c27f, #fc5c7d);
         }
 
         .chart-bar .pct {
-            font-size: 14px;
+            font-size: 13px;
             font-weight: 700;
             width: 45px;
             text-align: left;
+            color: #ccd6f6;
         }
 
         .weak-topics-container {
-            background: #1a2332;
-            border-radius: 20px;
-            padding: 20px;
-            border: 1px solid #2a3a55;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 24px;
         }
 
         .weak-topics-container h3 {
-            color: #fc5c7d;
-            margin-bottom: 12px;
+            color: #f87171;
+            margin-bottom: 14px;
+            font-weight: 600;
+            font-size: 18px;
         }
 
         #weakTopicsList {
@@ -410,18 +600,27 @@
         }
 
         #weakTopicsList li {
-            padding: 8px 12px;
+            padding: 8px 14px;
             margin-bottom: 6px;
-            background: #111827;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
             display: flex;
             justify-content: space-between;
-            border-right: 3px solid #fc5c7d;
+            border-right: 2px solid #f87171;
+            font-size: 14px;
         }
 
-        /* ========================================
-                   MODAL
-                ======================================== */
+        #weakTopicsList li .topic {
+            color: #ccd6f6;
+        }
+        #weakTopicsList li .pct {
+            color: #f87171;
+            font-weight: 700;
+        }
+
+        /* ============================================================
+           MODAL
+           ============================================================ */
         .modal {
             display: none;
             position: fixed;
@@ -430,7 +629,9 @@
             top: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.8);
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             justify-content: center;
             align-items: center;
         }
@@ -440,36 +641,41 @@
         }
 
         .modal-content {
-            background: #1a2332;
-            padding: 30px;
-            border-radius: 24px;
+            background: rgba(20, 28, 50, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 32px;
+            border-radius: 28px;
             max-width: 500px;
             width: 90%;
             max-height: 90vh;
             overflow-y: auto;
-            border: 1px solid #2a3a55;
             position: relative;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
         }
 
         .modal-close {
             position: absolute;
-            top: 12px;
+            top: 14px;
             left: 20px;
-            font-size: 30px;
+            font-size: 28px;
             cursor: pointer;
-            color: #b0c4de;
+            color: #8892b0;
             transition: 0.3s;
         }
 
         .modal-close:hover {
-            color: #fc5c7d;
+            color: #f0f4ff;
             transform: rotate(90deg);
         }
 
         .modal-content h2 {
-            color: #f0c27f;
-            margin-bottom: 20px;
+            color: #ccd6f6;
+            margin-bottom: 24px;
             text-align: center;
+            font-weight: 700;
+            font-size: 24px;
         }
 
         .form-group {
@@ -478,112 +684,73 @@
 
         .form-group label {
             display: block;
-            font-weight: 700;
+            font-weight: 600;
             margin-bottom: 4px;
-            color: #b0c4de;
-            font-size: 14px;
+            color: #8892b0;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
 
         .form-group input,
         .form-group select {
             width: 100%;
             padding: 12px 16px;
-            border-radius: 12px;
-            border: 1px solid #2a3a55;
-            background: #111827;
-            color: #fff;
-            font-family: 'Cairo', sans-serif;
-            font-size: 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
+            color: #f0f4ff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
             transition: 0.3s;
         }
 
         .form-group input:focus,
         .form-group select:focus {
             outline: none;
-            border-color: #00d2ff;
+            border-color: #7eb8ff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .form-group input::placeholder {
+            color: #4a5568;
         }
 
         .btn-submit {
-            background: linear-gradient(135deg, #fc5c7d, #6a82fb);
+            background: linear-gradient(135deg, #7eb8ff, #a78bfa);
             border: none;
             color: #fff;
             padding: 14px 30px;
-            border-radius: 14px;
-            font-family: 'Cairo', sans-serif;
-            font-size: 20px;
-            font-weight: 900;
+            border-radius: 16px;
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
             cursor: pointer;
             width: 100%;
             transition: 0.3s;
+            margin-top: 8px;
         }
 
         .btn-submit:hover {
             transform: scale(1.02);
-            box-shadow: 0 10px 30px #fc5c7d55;
+            box-shadow: 0 10px 40px rgba(126, 184, 255, 0.25);
         }
 
-        /* ========================================
-                   TEST LIST INSIDE SUBJECT
-                ======================================== */
-        .test-list {
-            margin-top: 12px;
-            max-height: 200px;
-            overflow-y: auto;
-        }
-
-        .test-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 6px 10px;
-            background: #111827;
-            border-radius: 8px;
-            margin-bottom: 4px;
-            font-size: 14px;
-            border-right: 3px solid #00d2ff;
-        }
-
-        .test-item .status-done {
-            color: #4ade80;
-        }
-        .test-item .status-planned {
-            color: #f0c27f;
-        }
-        .test-item .status-review {
-            color: #fc5c7d;
-        }
-
-        .btn-delete-test {
-            background: none;
-            border: none;
-            color: #fc5c7d;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .btn-delete-subject {
-            background: none;
-            border: none;
-            color: #fc5c7d;
-            cursor: pointer;
-            font-size: 20px;
-            padding: 0 8px;
-        }
-
-        /* ========================================
-                   SCROLLBAR
-                ======================================== */
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
         ::-webkit-scrollbar {
-            width: 6px;
+            width: 4px;
         }
         ::-webkit-scrollbar-track {
-            background: #111827;
+            background: rgba(255, 255, 255, 0.02);
         }
         ::-webkit-scrollbar-thumb {
-            background: #2a3a55;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
         }
         ::-webkit-scrollbar-thumb:hover {
-            background: #3b4e6b;
+            background: rgba(126, 184, 255, 0.3);
         }
     </style>
 </head>
@@ -594,74 +761,75 @@
         <!-- =================== HEADER =================== -->
         <header class="header">
             <div class="logo">
-                <span class="logo-icon">📚</span>
-                <span class="logo-text">KIMI <small>Exam Tracker</small></span>
+                <span class="logo-icon">🚀</span>
+                <span class="logo-text">
+                    <span class="highlight">Kimi</span> Notes
+                    <small>✦ Exam Tracker</small>
+                </span>
             </div>
             <div class="header-stats">
-                <div class="stat-item">
-                    <span class="label">XP</span>
-                    <span class="value" id="totalXP">0</span>
+                <div class="stat-pill">
+                    ⚡ <span class="num" id="totalXP">0</span> XP
                 </div>
-                <div class="stat-item">
-                    <span class="label">Level</span>
-                    <span class="value" id="totalLevel">1</span>
+                <div class="stat-pill">
+                    🎯 <span class="num" id="totalLevel">1</span>
                 </div>
-                <button class="btn-export" onclick="exportData()">📤 تصدير</button>
-                <button class="btn-import" onclick="document.getElementById('importFile').click()">📥 استيراد</button>
+                <button class="btn-export" onclick="exportData()">📤 Export</button>
+                <button class="btn-import" onclick="document.getElementById('importFile').click()">📥 Import</button>
                 <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)" />
             </div>
         </header>
 
         <!-- =================== SUBJECTS =================== -->
-        <section class="subjects-section">
-            <h2>📊 المواد</h2>
+        <section>
+            <h2 class="section-title">📚 <span>Subjects</span></h2>
             <div class="subjects-grid" id="subjectsGrid"></div>
-            <button class="btn-add-subject" onclick="addSubject()">➕ إضافة مادة جديدة</button>
+            <button class="btn-add-subject" onclick="addSubject()">+ Add New Subject</button>
         </section>
 
         <!-- =================== STATS =================== -->
-        <section class="stats-section">
+        <section>
             <div class="stats-cards">
                 <div class="stat-card">
                     <span class="icon">📝</span>
                     <span class="number" id="totalTests">0</span>
-                    <span class="lbl">إجمالي الاختبارات</span>
+                    <span class="lbl">Total Tests</span>
                 </div>
                 <div class="stat-card">
                     <span class="icon">✅</span>
                     <span class="number" id="completedTests">0</span>
-                    <span class="lbl">مكتملة</span>
+                    <span class="lbl">Completed</span>
                 </div>
                 <div class="stat-card">
                     <span class="icon">📈</span>
                     <span class="number" id="overallAverage">0%</span>
-                    <span class="lbl">المعدل العام</span>
+                    <span class="lbl">Overall Avg</span>
                 </div>
                 <div class="stat-card">
                     <span class="icon">🏆</span>
                     <span class="number" id="badgesCount">0</span>
-                    <span class="lbl">الشارات</span>
+                    <span class="lbl">Badges</span>
                 </div>
             </div>
         </section>
 
         <!-- =================== BADGES =================== -->
-        <section class="badges-section">
-            <h2>🏅 الشارات</h2>
+        <section>
+            <h2 class="section-title">🏅 <span>Badges</span></h2>
             <div class="badges-grid" id="badgesGrid"></div>
         </section>
 
         <!-- =================== ANALYSIS =================== -->
-        <section class="analysis-section">
+        <section>
             <div class="analysis-grid">
                 <div class="chart-container">
-                    <h3>📊 توزيع الأداء</h3>
+                    <h3>📊 Performance Distribution</h3>
                     <div id="performanceChart"></div>
                 </div>
                 <div class="weak-topics-container">
-                    <h3>⚠️ المواضيع الضعيفة</h3>
+                    <h3>⚠️ Weak Topics</h3>
                     <ul id="weakTopicsList">
-                        <li style="color:#b0c4de; text-align:center;">لا توجد بيانات كافية</li>
+                        <li style="color:#8892b0; text-align:center; border-right:none;">No data yet</li>
                     </ul>
                 </div>
             </div>
@@ -672,36 +840,36 @@
     <!-- =================== MODAL =================== -->
     <div class="modal" id="testModal">
         <div class="modal-content">
-            <span class="modal-close" onclick="closeModal()">&times;</span>
-            <h2>➕ إضافة اختبار جديد</h2>
+            <span class="modal-close" onclick="closeModal()">✕</span>
+            <h2>➕ New Test</h2>
             <form id="testForm" onsubmit="addTest(event)">
                 <input type="hidden" id="subjectName" />
                 <div class="form-group">
-                    <label>المادة</label>
+                    <label>Subject</label>
                     <input type="text" id="testSubject" readonly />
                 </div>
                 <div class="form-group">
-                    <label>عنوان الاختبار</label>
-                    <input type="text" id="testTitle" required placeholder="مثل: اختبار النحو" />
+                    <label>Test Title</label>
+                    <input type="text" id="testTitle" required placeholder="e.g. Grammar Quiz" />
                 </div>
                 <div class="form-group">
-                    <label>الموضوع</label>
-                    <input type="text" id="testTopic" placeholder="مثل: النحو" />
+                    <label>Topic</label>
+                    <input type="text" id="testTopic" placeholder="e.g. Grammar" />
                 </div>
                 <div class="form-group">
-                    <label>التاريخ</label>
+                    <label>Date</label>
                     <input type="date" id="testDate" required />
                 </div>
                 <div class="form-group">
-                    <label>الدرجة الكلية</label>
-                    <input type="number" id="testTotal" required placeholder="مثل: 50" step="0.1" />
+                    <label>Total Marks</label>
+                    <input type="number" id="testTotal" required placeholder="e.g. 50" step="0.1" />
                 </div>
                 <div class="form-group">
-                    <label>درجتك</label>
-                    <input type="number" id="testScore" required placeholder="مثل: 45" step="0.1" />
+                    <label>Your Score</label>
+                    <input type="number" id="testScore" required placeholder="e.g. 45" step="0.1" />
                 </div>
                 <div class="form-group">
-                    <label>الحالة</label>
+                    <label>Status</label>
                     <select id="testStatus">
                         <option value="Done">✅ Done</option>
                         <option value="Planned">📅 Planned</option>
@@ -709,14 +877,14 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>الأخطاء</label>
-                    <input type="text" id="testMistakes" placeholder="مثل: Grammar, Spelling" />
+                    <label>Mistakes</label>
+                    <input type="text" id="testMistakes" placeholder="e.g. Grammar, Spelling" />
                 </div>
                 <div class="form-group">
-                    <label>الموضوع الضعيف</label>
-                    <input type="text" id="testWeakTopic" placeholder="مثل: Grammar" />
+                    <label>Weak Topic</label>
+                    <input type="text" id="testWeakTopic" placeholder="e.g. Grammar" />
                 </div>
-                <button type="submit" class="btn-submit">💾 حفظ الاختبار</button>
+                <button type="submit" class="btn-submit">💾 Save Test</button>
             </form>
         </div>
     </div>
@@ -726,7 +894,7 @@
     <!-- ============================================================ -->
     <script>
         // ============================================================
-        //  DATA LAYER  (المخزن)
+        //  DATA LAYER  (Storage)
         // ============================================================
         let data = {
             subjects: {} // { "Arabic": { emoji: "🇪🇬", tests: [ { title, topic, date, total, score, status, mistakes, weakTopic }, ... ] } }
@@ -745,12 +913,11 @@
         function init() {
             loadFromStorage();
             renderAll();
-            // حفظ تلقائي كل 5 ثواني
             setInterval(saveToStorage, 5000);
         }
 
         // ============================================================
-        //  STORAGE  (السيف بتاع الداتا 🔒)
+        //  STORAGE  (The Safe 🔒)
         // ============================================================
         function saveToStorage() {
             try {
@@ -763,23 +930,22 @@
                 const raw = localStorage.getItem('kimiTrackerData');
                 if (raw) {
                     const parsed = JSON.parse(raw);
-                    // تأكد من وجود subjects
                     if (parsed.subjects) {
                         data = parsed;
                         return;
                     }
                 }
             } catch (e) { /* ignore */ }
-            // البيانات الافتراضية
+            // Default data
             data = {
                 subjects: {
-                    'العربية': {
+                    'Arabic': {
                         emoji: '🇪🇬',
                         tests: [
-                            { title: 'اختبار النحو', topic: 'النحو', date: '2026-01-15', total: 50, score: 45,
-                                status: 'Done', mistakes: 'إعراب', weakTopic: 'النحو' },
-                            { title: 'اختبار البلاغة', topic: 'البلاغة', date: '2026-01-22', total: 50, score: 40,
-                                status: 'Done', mistakes: 'تشبيه', weakTopic: 'البلاغة' }
+                            { title: 'Grammar Quiz', topic: 'Grammar', date: '2026-01-15', total: 50, score: 45,
+                                status: 'Done', mistakes: 'Irab', weakTopic: 'Grammar' },
+                            { title: 'Rhetoric Test', topic: 'Rhetoric', date: '2026-01-22', total: 50, score: 40,
+                                status: 'Done', mistakes: 'Simile', weakTopic: 'Rhetoric' }
                         ]
                     },
                     'English': {
@@ -813,7 +979,7 @@
             const url = URL.createObjectURL(blob);
             const a = document.createElement('a');
             a.href = url;
-            a.download = `kimi_backup_${new Date().toISOString().slice(0,10)}.json`;
+            a.download = `kimi_backup_${new Date().toISOString().slice(0, 10)}.json`;
             a.click();
             URL.revokeObjectURL(url);
         }
@@ -829,12 +995,12 @@
                         data = imported;
                         saveToStorage();
                         renderAll();
-                        alert('✅ تم استيراد البيانات بنجاح!');
+                        alert('✅ Data imported successfully!');
                     } else {
-                        alert('❌ ملف غير صالح');
+                        alert('❌ Invalid file');
                     }
                 } catch (err) {
-                    alert('❌ خطأ في قراءة الملف');
+                    alert('❌ Error reading file');
                 }
             };
             reader.readAsText(file);
@@ -989,17 +1155,17 @@
                 const card = document.createElement('div');
                 card.className = 'subject-card';
                 card.innerHTML = `
-                            <div class="header">
+                            <div class="card-header">
                                 <span class="name">${sub.emoji || '📚'} ${name}</span>
                                 <span>
-                                    <button class="btn-delete-subject" onclick="deleteSubject('${name}')" title="حذف المادة">🗑️</button>
+                                    <button class="btn-delete-subject" onclick="deleteSubject('${name}')" title="Delete subject">🗑️</button>
                                 </span>
                             </div>
-                            <div class="stats">
-                                <div class="s"><span class="num">${tests.length}</span><span class="lbl">اختبارات</span></div>
-                                <div class="s"><span class="num">${doneCount}</span><span class="lbl">مكتملة</span></div>
-                                <div class="s"><span class="num">${(avg * 100).toFixed(0)}%</span><span class="lbl">المعدل</span></div>
-                                <div class="s"><span class="num">${(progress * 100).toFixed(0)}%</span><span class="lbl">تقدم</span></div>
+                            <div class="stats-grid">
+                                <div class="s"><span class="num">${tests.length}</span><span class="lbl">Tests</span></div>
+                                <div class="s"><span class="num">${doneCount}</span><span class="lbl">Done</span></div>
+                                <div class="s"><span class="num">${(avg * 100).toFixed(0)}%</span><span class="lbl">Avg</span></div>
+                                <div class="s"><span class="num">${(progress * 100).toFixed(0)}%</span><span class="lbl">Progress</span></div>
                             </div>
                             <div class="progress-bar"><div class="progress-fill" style="width:${progress * 100}%;"></div></div>
                             <span class="rank ${rank.cls}">${rank.label}</span>
@@ -1008,13 +1174,13 @@
                                     <div class="test-item">
                                         <span>${t.title}</span>
                                         <span>
-                                            <span class="status-${t.status.toLowerCase()}">${t.status}</span>
+                                            <span class="status-${t.status}">${t.status}</span>
                                             <button class="btn-delete-test" onclick="deleteTest('${name}', '${t.title}')">✕</button>
                                         </span>
                                     </div>
                                 `).join('')}
                             </div>
-                            <button onclick="openModal('${name}')" style="margin-top:10px; background:#00d2ff22; border:1px solid #00d2ff; color:#00d2ff; padding:6px 16px; border-radius:10px; cursor:pointer; font-family:'Cairo',sans-serif; font-weight:700;">➕ اختبار</button>
+                            <button class="btn-add-test" onclick="openModal('${name}')">+ Add Test</button>
                         `;
                 grid.appendChild(card);
             }
@@ -1047,19 +1213,10 @@
         }
 
         function renderAnalysis() {
-            // Performance Chart
             const chart = document.getElementById('performanceChart');
             const avg = getOverallAvg(data);
             const weak = getWeakTopics(data);
 
-            const ranges = [
-                { label: 'Excellent', min: 0.9, max: 1, color: '#4ade80' },
-                { label: 'Good', min: 0.7, max: 0.9, color: '#00d2ff' },
-                { label: 'Average', min: 0.5, max: 0.7, color: '#f0c27f' },
-                { label: 'Weak', min: 0, max: 0.5, color: '#fc5c7d' },
-            ];
-
-            // حساب توزيع الاختبارات
             let dist = { Excellent: 0, Good: 0, Average: 0, Weak: 0 };
             let totalTests = 0;
             for (const s in data.subjects) {
@@ -1075,8 +1232,15 @@
                 }
             }
 
+            const colors = {
+                Excellent: '#34d399',
+                Good: '#7eb8ff',
+                Average: '#fbbf24',
+                Weak: '#f87171'
+            };
+
             if (totalTests === 0) {
-                chart.innerHTML = '<p style="color:#b0c4de; text-align:center; padding:20px;">لا توجد اختبارات لعرضها</p>';
+                chart.innerHTML = '<p style="color:#8892b0; text-align:center; padding:20px;">No tests to display</p>';
             } else {
                 chart.innerHTML = `
                             ${Object.entries(dist).map(([label, count]) => {
@@ -1084,24 +1248,24 @@
                                 return `
                                     <div class="chart-bar">
                                         <span class="lbl">${label}</span>
-                                        <div class="line"><div class="fill" style="width:${pct}%; background:${ranges.find(r=>r.label===label)?.color || '#fff'};"></div></div>
+                                        <div class="line"><div class="fill" style="width:${pct}%; background:${colors[label]};"></div></div>
                                         <span class="pct">${pct.toFixed(0)}%</span>
                                     </div>
                                 `;
                             }).join('')}
-                            <div style="margin-top:12px; text-align:center; color:#b0c4de; font-size:14px;">
-                                المعدل العام: <strong style="color:#f0c27f;">${(avg * 100).toFixed(0)}%</strong>
+                            <div style="margin-top:14px; text-align:center; color:#8892b0; font-size:14px;">
+                                Overall Average: <strong style="color:#7eb8ff;">${(avg * 100).toFixed(0)}%</strong>
                             </div>
                         `;
             }
 
-            // Weak Topics
             const list = document.getElementById('weakTopicsList');
             if (weak.length === 0) {
-                list.innerHTML = '<li style="color:#b0c4de; text-align:center; border-right:none;">✨ مفيش مواضيع ضعيفة! استمر 💪</li>';
+                list.innerHTML =
+                '<li style="color:#8892b0; text-align:center; border-right:none;">✨ No weak topics! Keep going 💪</li>';
             } else {
                 list.innerHTML = weak.map(w =>
-                    `<li><span>${w.topic}</span><span style="color:#fc5c7d;">${(w.avgScore * 100).toFixed(0)}%</span></li>`
+                    `<li><span class="topic">${w.topic}</span><span class="pct">${(w.avgScore * 100).toFixed(0)}%</span></li>`
                 ).join('');
             }
         }
@@ -1140,7 +1304,7 @@
             const weakTopic = document.getElementById('testWeakTopic').value.trim();
 
             if (!subject || !title || !date || isNaN(total) || isNaN(score)) {
-                alert('❌ يرجى ملء جميع الحقول المطلوبة');
+                alert('❌ Please fill all required fields');
                 return;
             }
 
@@ -1165,7 +1329,7 @@
         }
 
         function deleteTest(subject, title) {
-            if (!confirm(`❌ هل تريد حذف الاختبار "${title}"؟`)) return;
+            if (!confirm(`❌ Delete test "${title}"?`)) return;
             const tests = data.subjects[subject]?.tests || [];
             data.subjects[subject].tests = tests.filter(t => t.title !== title);
             saveToStorage();
@@ -1173,18 +1337,18 @@
         }
 
         function deleteSubject(subject) {
-            if (!confirm(`❌ هل تريد حذف المادة "${subject}" وجميع اختباراتها؟`)) return;
+            if (!confirm(`❌ Delete subject "${subject}" and all its tests?`)) return;
             delete data.subjects[subject];
             saveToStorage();
             renderAll();
         }
 
         function addSubject() {
-            const name = prompt('📚 أدخل اسم المادة الجديدة:');
+            const name = prompt('📚 Enter subject name:');
             if (!name || name.trim() === '') return;
-            const emoji = prompt('🎨 أدخل إيموجي للمادة (اختياري):') || '📚';
+            const emoji = prompt('🎨 Enter an emoji for this subject (optional):') || '📚';
             if (data.subjects[name.trim()]) {
-                alert('❌ هذه المادة موجودة بالفعل');
+                alert('❌ Subject already exists');
                 return;
             }
             data.subjects[name.trim()] = { emoji, tests: [] };
@@ -1197,7 +1361,6 @@
         // ============================================================
         document.addEventListener('DOMContentLoaded', init);
 
-        // إغلاق المودال بالضغط خارج المحتوى
         document.getElementById('testModal').addEventListener('click', function(e) {
             if (e.target === this) closeModal();
         });
