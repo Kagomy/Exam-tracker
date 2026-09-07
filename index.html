@@ -286,7 +286,7 @@
         }
 
         /* ============================================================
-           ADMIN PANEL - Now accessible via a visible button
+           ADMIN SECTION
            ============================================================ */
         .admin-section {
             position: fixed;
@@ -488,17 +488,6 @@
 
         .admin-panel .btn-admin-danger:hover {
             box-shadow: 0 4px 20px rgba(248, 113, 113, 0.3);
-        }
-
-        .admin-panel .btn-admin-secondary {
-            background: rgba(255, 255, 255, 0.06);
-            color: #8892b0;
-            border: 1px solid rgba(255, 255, 255, 0.06);
-        }
-
-        .admin-panel .btn-admin-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            color: #f0f4ff;
         }
 
         .admin-panel .email-list {
@@ -867,15 +856,25 @@
     <!-- ============================================================ -->
     <script>
         // ============================================================
-        //  🔐 EMAIL AUTHORIZATION SYSTEM
+        //  🔐 EMAIL AUTHORIZATION SYSTEM - FIXED VERSION
         //  ============================================================
 
         // 🔑 ADMIN MASTER PASSWORD - CHANGE THIS!
         const ADMIN_PASSWORD = 'admin2024';
 
+        // ✅ IMPORTANT: ADD YOUR ALLOWED EMAILS HERE (HARDCODED)
+        // أضيفي الأيميلات المسموحة هنا - مش هتتغير
+        const HARDCODED_EMAILS = [
+            'your@email.com',      // ← غيري ده
+            'admin@kimi.com',
+            'test@example.com',
+            'khadija@email.com',
+            // أضيفي أي إيميلات تانية هنا
+        ];
+
         // ============================================================
-        //  STORAGE FUNCTIONS
-        // ============================================================
+        //  STORAGE FUNCTIONS - WITH HARDCODED FALLBACK
+        //  ============================================================
 
         function getAllowedEmails() {
             try {
@@ -883,19 +882,21 @@
                 if (raw) {
                     const emails = JSON.parse(raw);
                     if (Array.isArray(emails) && emails.length > 0) {
-                        return emails;
+                        // Merge with hardcoded emails
+                        const merged = [...new Set([...HARDCODED_EMAILS, ...emails])];
+                        return merged;
                     }
                 }
             } catch (e) { /* ignore */ }
 
-            // Default emails when first time
-            const defaultEmails = ['your@email.com', 'admin@kimi.com'];
-            saveAllowedEmails(defaultEmails);
-            return defaultEmails;
+            // Always return hardcoded emails if no stored ones
+            return HARDCODED_EMAILS;
         }
 
         function saveAllowedEmails(emails) {
-            localStorage.setItem('kimiAllowedEmails', JSON.stringify(emails));
+            // Only save emails that are NOT in hardcoded list
+            const nonHardcoded = emails.filter(e => !HARDCODED_EMAILS.includes(e));
+            localStorage.setItem('kimiAllowedEmails', JSON.stringify(nonHardcoded));
         }
 
         function addAllowedEmail(email) {
@@ -910,6 +911,12 @@
         }
 
         function removeAllowedEmail(email) {
+            // Don't allow removing hardcoded emails
+            if (HARDCODED_EMAILS.includes(email)) {
+                alert(`⚠️ "${email}" is a hardcoded email and cannot be removed.`);
+                return false;
+            }
+
             const emails = getAllowedEmails();
             const index = emails.indexOf(email);
             if (index > -1) {
@@ -922,7 +929,8 @@
 
         function isEmailAllowed(email) {
             const emails = getAllowedEmails();
-            return emails.includes(email.toLowerCase().trim());
+            const normalized = email.toLowerCase().trim();
+            return emails.includes(normalized);
         }
 
         // ============================================================
@@ -1024,7 +1032,7 @@
         }
 
         // ============================================================
-        //  ADMIN PANEL - SIMPLE TOGGLE
+        //  ADMIN PANEL
         // ============================================================
 
         function toggleAdmin() {
@@ -1036,7 +1044,6 @@
                 return;
             }
 
-            // Ask for password
             const password = prompt('🔐 Enter admin password:');
             if (password === ADMIN_PASSWORD) {
                 panel.classList.add('show');
@@ -1069,6 +1076,12 @@
         }
 
         function removeEmail(email) {
+            // Check if hardcoded
+            if (HARDCODED_EMAILS.includes(email)) {
+                alert(`⚠️ "${email}" is a hardcoded email and cannot be removed.`);
+                return;
+            }
+
             if (!confirm(`❌ Remove "${email}" from authorized list?`)) return;
             if (removeAllowedEmail(email)) {
                 renderEmailList();
@@ -1088,29 +1101,14 @@
         }
 
         function clearAllEmails() {
-            if (!confirm('⚠️ Delete ALL authorized emails? This cannot be undone!')) return;
-            if (!confirm('⚠️ Are you sure? This will lock out ALL users including yourself!')) return;
+            if (!confirm('⚠️ Delete ALL added emails? Hardcoded emails will remain.')) return;
 
-            // Keep at least one email (the current user if logged in)
-            const session = localStorage.getItem('kimiEmailSession');
-            let keepEmail = null;
-            if (session) {
-                try {
-                    const data = JSON.parse(session);
-                    keepEmail = data.email;
-                } catch (e) { /* ignore */ }
-            }
-
-            if (keepEmail) {
-                saveAllowedEmails([keepEmail]);
-                alert(`✅ All emails cleared. Kept "${keepEmail}" as you are currently logged in.`);
-            } else {
-                saveAllowedEmails([]);
-                alert('✅ All emails cleared!');
-                localStorage.removeItem('kimiEmailSession');
-                location.reload();
-            }
+            // Only clear non-hardcoded emails
+            const currentEmails = getAllowedEmails();
+            const toKeep = currentEmails.filter(e => HARDCODED_EMAILS.includes(e));
+            saveAllowedEmails(toKeep);
             renderEmailList();
+            alert(`✅ Cleared all added emails. ${toKeep.length} hardcoded emails remain.`);
         }
 
         function renderEmailList() {
@@ -1131,18 +1129,24 @@
                 return;
             }
 
-            list.innerHTML = emails.map(email => `
-                        <div class="item">
-                            <span class="email">✉️ ${email}</span>
-                            <button class="remove-btn" onclick="removeEmail('${email}')" title="Remove">✕</button>
-                        </div>
-                    `).join('');
+            list.innerHTML = emails.map(email => {
+                const isHardcoded = HARDCODED_EMAILS.includes(email);
+                return `
+                            <div class="item">
+                                <span class="email">✉️ ${email} ${isHardcoded ? '🔒' : ''}</span>
+                                <button class="remove-btn" onclick="removeEmail('${email}')" title="${isHardcoded ? 'Cannot remove hardcoded email' : 'Remove'}" ${isHardcoded ? 'style="opacity:0.2;cursor:not-allowed;"' : ''}>
+                                    ${isHardcoded ? '🔒' : '✕'}
+                                </button>
+                            </div>
+                        `;
+            }).join('');
 
-            stats.textContent = `${emails.length} authorized email${emails.length > 1 ? 's' : ''}`;
+            const hardcodedCount = emails.filter(e => HARDCODED_EMAILS.includes(e)).length;
+            stats.textContent = `${emails.length} authorized emails (${hardcodedCount} hardcoded)`;
         }
 
         // ============================================================
-        //  STARS & SPACE EFFECTS
+        //  STARS
         // ============================================================
 
         function createStars() {
@@ -1163,35 +1167,31 @@
         }
 
         // ============================================================
-        //  KEYBOARD SHORTCUTS (Optional - still works if they want)
+        //  KEYBOARD SHORTCUTS
         // ============================================================
 
         document.addEventListener('keydown', function(e) {
-            // Ctrl+Shift+A still works as alternative
             if (e.ctrlKey && e.shiftKey && e.key === 'A') {
                 e.preventDefault();
                 toggleAdmin();
             }
 
-            // Enter key on email input
             if (e.key === 'Enter' && document.activeElement === document.getElementById('userEmail')) {
                 verifyEmail();
             }
 
-            // Escape key to close admin panel
             if (e.key === 'Escape') {
                 closeAdmin();
             }
         });
 
         // ============================================================
-        //  CONSOLE PROTECTION
+        //  CONSOLE
         // ============================================================
 
         console.log('%c🚀 Kimi Notes - Email Protected', 'font-size:20px; font-weight:bold; color:#7eb8ff;');
-        console.log('%c🔒 Access is limited to authorized emails only.', 'font-size:14px; color:#f0f4ff;');
-        console.log('%c📧 Contact the administrator to get access.', 'font-size:13px; color:#8892b0;');
-        console.log('%c🔑 Click the "Admin" button in the bottom-right corner', 'font-size:12px; color:#4a5568;');
+        console.log('%c📧 Hardcoded emails:', 'font-size:14px; color:#f0f4ff;', HARDCODED_EMAILS);
+        console.log('%c🔑 Click the "Admin" button or press Ctrl+Shift+A', 'font-size:12px; color:#4a5568;');
 
         // ============================================================
         //  INIT
@@ -1201,7 +1201,6 @@
             createStars();
             checkSession();
 
-            // Focus input after a moment
             setTimeout(() => {
                 const input = document.getElementById('userEmail');
                 if (input && !document.getElementById('protectionOverlay').classList.contains('hidden')) {
