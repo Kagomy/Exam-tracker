@@ -1669,6 +1669,9 @@
                             </div>
                             <button class="btn-admin btn-admin-success" onclick="addUserFromAdmin()">➕ Add User</button>
                             <button class="btn-admin btn-admin-danger" onclick="clearAllUsers()" style="margin-top:8px;">🗑️ Clear All</button>
+                            <div style="margin-top:12px;padding:10px;background:rgba(251,191,36,0.05);border-radius:12px;border:1px solid rgba(251,191,36,0.1);">
+                                <span style="font-size:12px;color:#fbbf24;">💡 Users added here are saved in your browser only. They won't be available on other devices.</span>
+                            </div>
                         </div>
 
                         <div>
@@ -1869,109 +1872,45 @@
     <!-- ============================================================ -->
     <script>
         // ============================================================
-        //  🔐 USER SYSTEM - FIXED VERSION
+        //  🔐 USER SYSTEM - HARDCODED USERS (SHARED ACROSS ALL DEVICES)
         //  ============================================================
 
-        // Default users (hardcoded - always exist)
-        const DEFAULT_USERS = {
+        // ✅ ADD USERS HERE - These work on ALL devices
+        // أضيفي المستخدمين هنا - هيدخلوا من أي جهاز
+        const HARDCODED_USERS = {
             'admin': { password: 'admin123', displayName: 'Admin', role: 'admin' },
             'kimi': { password: 'kimi2024', displayName: 'Kimi User', role: 'user' },
             'demo': { password: 'demo123', displayName: 'Demo User', role: 'user' },
+            // 👇 Add more users here - ضيفي مستخدمين تانيين هنا
+            // 'username': { password: 'password', displayName: 'Display Name', role: 'user' },
         };
 
         // ============================================================
-        //  USER STORAGE - SIMPLIFIED & FIXED
+        //  USER FUNCTIONS
         //  ============================================================
 
-        // Get all users (default + stored)
         function getAllUsers() {
-            try {
-                const raw = localStorage.getItem('kimiUsers');
-                if (raw) {
-                    const stored = JSON.parse(raw);
-                    // Merge: stored users override defaults if same username
-                    // But we want defaults to always exist
-                    const merged = { ...DEFAULT_USERS };
-                    for (const [key, value] of Object.entries(stored)) {
-                        merged[key] = value;
-                    }
-                    return merged;
-                }
-            } catch (e) { /* ignore */ }
-            return { ...DEFAULT_USERS };
+            return { ...HARDCODED_USERS };
         }
 
-        // Get only stored users (non-default)
-        function getStoredUsers() {
-            try {
-                const raw = localStorage.getItem('kimiUsers');
-                if (raw) {
-                    return JSON.parse(raw);
-                }
-            } catch (e) { /* ignore */ }
-            return {};
-        }
-
-        // Save stored users (non-default only)
-        function saveStoredUsers(users) {
-            // Only save users that are NOT in DEFAULT_USERS
-            const toSave = {};
-            for (const [key, value] of Object.entries(users)) {
-                if (!DEFAULT_USERS[key]) {
-                    toSave[key] = value;
-                }
-            }
-            localStorage.setItem('kimiUsers', JSON.stringify(toSave));
-        }
-
-        // Add a new user
-        function addUser(username, password, displayName, role = 'user') {
-            const allUsers = getAllUsers();
-            // Check if username already exists (in defaults or stored)
-            if (allUsers[username]) return false;
-
-            const stored = getStoredUsers();
-            stored[username] = { password, displayName: displayName || username, role };
-            saveStoredUsers(stored);
-            return true;
-        }
-
-        // Remove a user (only if not default)
-        function removeUser(username) {
-            if (DEFAULT_USERS[username]) {
-                alert(`⚠️ "${username}" is a default user and cannot be removed.`);
-                return false;
-            }
-            const stored = getStoredUsers();
-            if (stored[username]) {
-                delete stored[username];
-                saveStoredUsers(stored);
-                return true;
-            }
-            return false;
-        }
-
-        // Validate user login
         function validateUser(username, password) {
-            const allUsers = getAllUsers();
-            if (!allUsers[username]) return false;
-            return allUsers[username].password === password;
+            const users = getAllUsers();
+            if (!users[username]) return false;
+            return users[username].password === password;
         }
 
-        // Get user data
         function getUserData(username) {
-            const allUsers = getAllUsers();
-            return allUsers[username] || null;
+            const users = getAllUsers();
+            return users[username] || null;
         }
 
-        // Check if user is admin
         function isAdmin(username) {
             const user = getUserData(username);
             return user && user.role === 'admin';
         }
 
         // ============================================================
-        //  USER DATA STORAGE (subjects, sessions, memories)
+        //  USER DATA STORAGE (subjects, sessions, memories - per user)
         //  ============================================================
 
         function getUserDataStorage(username) {
@@ -2037,6 +1976,7 @@
                     roleEl.className = 'role admin';
                     adminBtn.classList.add('visible');
                     document.getElementById('adminPanelContainer').classList.add('visible');
+                    renderUserList();
                 } else {
                     roleEl.textContent = '👤 User';
                     roleEl.className = 'role';
@@ -2045,7 +1985,6 @@
                 }
 
                 renderAll();
-                renderUserList();
                 renderSessions();
                 renderMemories();
                 renderStats();
@@ -2103,6 +2042,7 @@
                             roleEl.className = 'role admin';
                             adminBtn.classList.add('visible');
                             document.getElementById('adminPanelContainer').classList.add('visible');
+                            renderUserList();
                         } else {
                             roleEl.textContent = '👤 User';
                             roleEl.className = 'role';
@@ -2111,7 +2051,6 @@
                         }
 
                         renderAll();
-                        renderUserList();
                         renderSessions();
                         renderMemories();
                         renderStats();
@@ -2125,7 +2064,7 @@
         }
 
         // ============================================================
-        //  ADMIN PANEL
+        //  ADMIN PANEL - For viewing users only (no adding)
         //  ============================================================
 
         function toggleAdminPanel() {
@@ -2134,49 +2073,6 @@
             if (panel.classList.contains('visible')) {
                 renderUserList();
             }
-        }
-
-        function addUserFromAdmin() {
-            const input = document.getElementById('adminUser');
-            const value = input.value.trim();
-
-            if (!value || !value.includes(':')) {
-                alert('❌ Please enter in format: username:password');
-                return;
-            }
-
-            const [username, password] = value.split(':').map(s => s.trim());
-            if (!username || !password || password.length < 4) {
-                alert('❌ Password must be at least 4 characters');
-                return;
-            }
-
-            if (addUser(username, password)) {
-                input.value = '';
-                renderUserList();
-                alert(`✅ User "${username}" added successfully!`);
-            } else {
-                alert(`❌ User "${username}" already exists`);
-            }
-        }
-
-        function removeUserFromAdmin(username) {
-            if (!confirm(`❌ Remove user "${username}"?`)) return;
-            if (removeUser(username)) {
-                renderUserList();
-                if (currentUser === username) {
-                    localStorage.removeItem('kimiSession');
-                    location.reload();
-                }
-                alert(`✅ User "${username}" removed`);
-            }
-        }
-
-        function clearAllUsers() {
-            if (!confirm('⚠️ Delete ALL non-default users?')) return;
-            saveStoredUsers({});
-            renderUserList();
-            alert('✅ All non-default users cleared!');
         }
 
         function renderUserList() {
@@ -2195,23 +2091,17 @@
             }
 
             list.innerHTML = entries.map(([username, data]) => {
-                const isDefault = !!DEFAULT_USERS[username];
                 const roleLabel = data.role === 'admin' ? '🔑 Admin' : '👤 User';
                 const roleClass = data.role === 'admin' ? 'admin-tag' : '';
                 return `
                             <div class="item">
                                 <span class="username">👤 ${username}</span>
                                 <span class="role-tag ${roleClass}">${roleLabel}</span>
-                                <button class="remove-btn" onclick="removeUserFromAdmin('${username}')" 
-                                    ${isDefault ? 'style="opacity:0.2;cursor:not-allowed;" disabled' : ''}>
-                                    ${isDefault ? '🔒' : '✕'}
-                                </button>
                             </div>
                         `;
             }).join('');
 
-            const defaultCount = Object.keys(DEFAULT_USERS).length;
-            stats.textContent = `${entries.length} users (${defaultCount} default)`;
+            stats.textContent = `${entries.length} users`;
         }
 
         // ============================================================
