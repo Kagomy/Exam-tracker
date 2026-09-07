@@ -25,7 +25,6 @@
             overflow-x: hidden;
         }
 
-        /* Galaxy Background */
         body::before {
             content: '';
             position: fixed;
@@ -55,7 +54,6 @@
             }
         }
 
-        /* Stars */
         .stars {
             position: fixed;
             top: 0;
@@ -84,7 +82,6 @@
             }
         }
 
-        /* Shooting Stars */
         .shooting-star {
             position: fixed;
             width: 2px;
@@ -427,9 +424,6 @@
             transform: translateY(-2px);
         }
 
-        /* ============================================================
-           ADMIN PANEL BUTTON & PANEL
-           ============================================================ */
         .admin-toggle-btn {
             background: rgba(251, 191, 36, 0.1);
             border: 1px solid rgba(251, 191, 36, 0.2);
@@ -454,6 +448,9 @@
             display: inline-block;
         }
 
+        /* ============================================================
+           ADMIN PANEL
+           ============================================================ */
         .admin-panel-container {
             display: none;
             margin-bottom: 30px;
@@ -1872,7 +1869,7 @@
     <!-- ============================================================ -->
     <script>
         // ============================================================
-        //  🔐 USER SYSTEM WITH ADMIN
+        //  🔐 USER SYSTEM WITH ADMIN - FIXED VERSION
         //  ============================================================
 
         const ADMIN_USERNAME = 'admin';
@@ -1885,18 +1882,24 @@
         };
 
         // ============================================================
-        //  USER STORAGE
+        //  USER STORAGE - FIXED
         //  ============================================================
 
-        function getUsers() {
+        function getStoredUsers() {
             try {
                 const raw = localStorage.getItem('kimiUsers');
                 if (raw) {
-                    const users = JSON.parse(raw);
-                    return { ...DEFAULT_USERS, ...users };
+                    return JSON.parse(raw);
                 }
             } catch (e) { /* ignore */ }
-            return DEFAULT_USERS;
+            return {};
+        }
+
+        function getUsers() {
+            const stored = getStoredUsers();
+            // Merge: stored users first, then default users (defaults override)
+            const merged = { ...stored, ...DEFAULT_USERS };
+            return merged;
         }
 
         function saveUsers(users) {
@@ -1912,8 +1915,10 @@
         function addUser(username, password, displayName, role = 'user') {
             const users = getUsers();
             if (users[username]) return false;
-            users[username] = { password, displayName: displayName || username, role };
-            saveUsers(users);
+
+            const stored = getStoredUsers();
+            stored[username] = { password, displayName: displayName || username, role };
+            localStorage.setItem('kimiUsers', JSON.stringify(stored));
             return true;
         }
 
@@ -1922,9 +1927,9 @@
                 alert(`⚠️ "${username}" is a default user and cannot be removed.`);
                 return false;
             }
-            const users = getUsers();
-            delete users[username];
-            saveUsers(users);
+            const stored = getStoredUsers();
+            delete stored[username];
+            localStorage.setItem('kimiUsers', JSON.stringify(stored));
             return true;
         }
 
@@ -2043,7 +2048,7 @@
 
         // ============================================================
         //  AUTO-CHECK SESSION
-        // ============================================================
+        //  ============================================================
 
         function checkSession() {
             document.getElementById('domainDisplay').textContent = window.location.hostname;
@@ -2095,7 +2100,7 @@
 
         // ============================================================
         //  ADMIN PANEL
-        // ============================================================
+        //  ============================================================
 
         function toggleAdminPanel() {
             const panel = document.getElementById('adminPanelContainer');
@@ -2143,14 +2148,7 @@
 
         function clearAllUsers() {
             if (!confirm('⚠️ Delete ALL users (except default ones)?')) return;
-            const users = getUsers();
-            const toKeep = {};
-            for (const [key, value] of Object.entries(users)) {
-                if (DEFAULT_USERS[key]) {
-                    toKeep[key] = value;
-                }
-            }
-            saveUsers(toKeep);
+            localStorage.setItem('kimiUsers', JSON.stringify({}));
             renderUserList();
             alert('✅ All non-default users cleared!');
         }
@@ -2192,7 +2190,7 @@
 
         // ============================================================
         //  STUDY TOGETHER
-        // ============================================================
+        //  ============================================================
 
         function searchUsers() {
             const query = document.getElementById('userSearch').value.toLowerCase().trim();
@@ -2229,19 +2227,18 @@
                 return;
             }
 
-            const userData = currentUserData || { subjects: {} };
-            const xp = getTotalXP(userData);
-            const level = getLevel(xp);
-
             results.innerHTML = filtered.map(user => {
                 const status = Math.random() > 0.3 ? 'online' : (Math.random() > 0.5 ? 'studying' : 'offline');
                 const statusText = status === 'online' ? '🟢 Online' : status === 'studying' ? '📚 Studying' : '⚫ Offline';
+                const userData = getUserDataStorage(user.username);
+                const xp = getTotalXP(userData);
+                const level = getLevel(xp);
                 return `
                             <div class="user-card">
                                 <span class="user-avatar">👤</span>
                                 <div class="user-name">${user.displayName || user.username}</div>
                                 <div class="user-status">${statusText}</div>
-                                <div class="user-level">Level ${Math.floor(Math.random() * 20 + 1)}</div>
+                                <div class="user-level">Level ${level} • ${getTotalTests(userData)} tests</div>
                                 <button class="btn-study-request" onclick="requestStudy('${user.displayName || user.username}')">
                                     📚 Study Together
                                 </button>
@@ -2513,7 +2510,7 @@
 
         // ============================================================
         //  RENDER ALL
-        // ============================================================
+        //  ============================================================
 
         function renderAll() {
             renderSubjects();
@@ -2847,7 +2844,6 @@
                 });
             });
 
-            // Auto-focus login
             setTimeout(() => {
                 if (!document.getElementById('loginOverlay').classList.contains('hidden')) {
                     document.getElementById('loginUsername').focus();
