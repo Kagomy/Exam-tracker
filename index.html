@@ -752,6 +752,27 @@
         ::-webkit-scrollbar-thumb:hover {
             background: rgba(126, 184, 255, 0.3);
         }
+
+        /* ============================================================
+           EMPTY STATE
+           ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8892b0;
+        }
+
+        .empty-state .big-emoji {
+            font-size: 64px;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            color: #ccd6f6;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
     </style>
 </head>
 <body>
@@ -897,7 +918,7 @@
         //  DATA LAYER  (Storage)
         // ============================================================
         let data = {
-            subjects: {} // { "Arabic": { emoji: "🇪🇬", tests: [ { title, topic, date, total, score, status, mistakes, weakTopic }, ... ] } }
+            subjects: {} // فارغ تماماً - لا يوجد أي بيانات افتراضية
         };
 
         const BADGES_DEF = [
@@ -936,37 +957,10 @@
                     }
                 }
             } catch (e) { /* ignore */ }
-            // Default data
+            
+            // في حالة عدم وجود بيانات مخزنة، نستخدم كائن فارغ
             data = {
-                subjects: {
-                    'Arabic': {
-                        emoji: '🇪🇬',
-                        tests: [
-                            { title: 'Grammar Quiz', topic: 'Grammar', date: '2026-01-15', total: 50, score: 45,
-                                status: 'Done', mistakes: 'Irab', weakTopic: 'Grammar' },
-                            { title: 'Rhetoric Test', topic: 'Rhetoric', date: '2026-01-22', total: 50, score: 40,
-                                status: 'Done', mistakes: 'Simile', weakTopic: 'Rhetoric' }
-                        ]
-                    },
-                    'English': {
-                        emoji: '🇬🇧',
-                        tests: [
-                            { title: 'Grammar Test', topic: 'Grammar', date: '2026-01-10', total: 60, score: 50,
-                                status: 'Done', mistakes: 'Tenses', weakTopic: 'Grammar' }
-                        ]
-                    },
-                    'Programming': {
-                        emoji: '💻',
-                        tests: [
-                            { title: 'JavaScript Quiz', topic: 'JS', date: '2026-01-12', total: 40, score: 35,
-                                status: 'Done', mistakes: 'Closures', weakTopic: 'JS' }
-                        ]
-                    },
-                    'History': {
-                        emoji: '🏛️',
-                        tests: []
-                    }
-                }
+                subjects: {}
             };
             saveToStorage();
         }
@@ -1145,6 +1139,19 @@
         function renderSubjects() {
             const grid = document.getElementById('subjectsGrid');
             grid.innerHTML = '';
+            
+            const subjectNames = Object.keys(data.subjects);
+            if (subjectNames.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <span class="big-emoji">🚀</span>
+                        <h3>No subjects yet!</h3>
+                        <p style="color: #8892b0;">Click "Add New Subject" to start tracking your exams.</p>
+                    </div>
+                `;
+                return;
+            }
+
             for (const [name, sub] of Object.entries(data.subjects)) {
                 const tests = sub.tests;
                 const avg = getSubjectAvg(name);
