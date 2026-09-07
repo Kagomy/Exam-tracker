@@ -1648,6 +1648,7 @@
                         <span id="userDisplay">User</span>
                         <span class="role" id="userRole">User</span>
                     </div>
+                    <!-- ✅ BUTTON FIXED: onclick works now -->
                     <button class="admin-toggle-btn" id="adminToggleBtn" onclick="toggleAdminPanel()">⚙️ Admin Panel</button>
                     <button class="btn-logout" onclick="logoutUser()">🚪 Logout</button>
                 </div>
@@ -1664,13 +1665,8 @@
                     <div class="admin-grid">
                         <div>
                             <div class="form-group">
-                                <label>👤 Add User (username:password)</label>
-                                <input type="text" id="adminUser" placeholder="username:password" />
-                            </div>
-                            <button class="btn-admin btn-admin-success" onclick="addUserFromAdmin()">➕ Add User</button>
-                            <button class="btn-admin btn-admin-danger" onclick="clearAllUsers()" style="margin-top:8px;">🗑️ Clear All</button>
-                            <div style="margin-top:12px;padding:10px;background:rgba(251,191,36,0.05);border-radius:12px;border:1px solid rgba(251,191,36,0.1);">
-                                <span style="font-size:12px;color:#fbbf24;">💡 Users added here are saved in your browser only. They won't be available on other devices.</span>
+                                <label>👤 Users List</label>
+                                <div style="color:#8892b0;font-size:12px;padding:4px 0;">All registered users are shown below</div>
                             </div>
                         </div>
 
@@ -1872,16 +1868,15 @@
     <!-- ============================================================ -->
     <script>
         // ============================================================
-        //  🔐 USER SYSTEM - HARDCODED USERS (SHARED ACROSS ALL DEVICES)
+        //  🔐 USER SYSTEM - HARDCODED USERS
         //  ============================================================
 
         // ✅ ADD USERS HERE - These work on ALL devices
-        // أضيفي المستخدمين هنا - هيدخلوا من أي جهاز
         const HARDCODED_USERS = {
             'admin': { password: 'admin123', displayName: 'Admin', role: 'admin' },
             'kimi': { password: 'kimi2024', displayName: 'Kimi User', role: 'user' },
             'demo': { password: 'demo123', displayName: 'Demo User', role: 'user' },
-            // 👇 Add more users here - ضيفي مستخدمين تانيين هنا
+            // 👇 Add more users here
             // 'username': { password: 'password', displayName: 'Display Name', role: 'user' },
         };
 
@@ -1910,7 +1905,7 @@
         }
 
         // ============================================================
-        //  USER DATA STORAGE (subjects, sessions, memories - per user)
+        //  USER DATA STORAGE (per user)
         //  ============================================================
 
         function getUserDataStorage(username) {
@@ -1955,7 +1950,6 @@
                 const displayName = userData?.displayName || username;
                 const role = userData?.role || 'user';
 
-                // Save session
                 localStorage.setItem('kimiSession', JSON.stringify({
                     username: username,
                     displayName: displayName,
@@ -1963,7 +1957,6 @@
                     timestamp: Date.now()
                 }));
 
-                // Show app
                 document.getElementById('loginOverlay').classList.add('hidden');
                 document.getElementById('appContainer').style.display = 'block';
                 document.getElementById('userDisplay').textContent = displayName;
@@ -1990,7 +1983,6 @@
                 renderStats();
                 errorEl.classList.remove('show');
 
-                // Clear password field
                 document.getElementById('loginPassword').value = '';
             } else {
                 errorEl.textContent = '❌ Invalid username or password';
@@ -2064,16 +2056,22 @@
         }
 
         // ============================================================
-        //  ADMIN PANEL - For viewing users only (no adding)
+        //  ✅ FIXED: ADMIN PANEL TOGGLE
         //  ============================================================
 
         function toggleAdminPanel() {
             const panel = document.getElementById('adminPanelContainer');
-            panel.classList.toggle('visible');
             if (panel.classList.contains('visible')) {
+                panel.classList.remove('visible');
+            } else {
+                panel.classList.add('visible');
                 renderUserList();
             }
         }
+
+        // ============================================================
+        //  ADMIN - VIEW USERS
+        //  ============================================================
 
         function renderUserList() {
             const users = getAllUsers();
@@ -2742,7 +2740,7 @@
         console.log('%c👑 Admin: admin / admin123', 'font-size:14px; color:#fbbf24;');
         console.log('%c👤 Users: kimi / kimi2024, demo / demo123', 'font-size:14px; color:#8892b0;');
         console.log('%c📦 All features: Subjects, Tests, Timer, Sessions, Memories, Study Together, XP, Badges', 'font-size:12px; color:#34d399;');
-        console.log('%c🔑 Admin Panel: Click "Admin Panel" button after login', 'font-size:12px; color:#4a5568;');
+        console.log('%c🔑 Click "Admin Panel" button after login', 'font-size:12px; color:#4a5568;');
 
         // ============================================================
         //  INIT
