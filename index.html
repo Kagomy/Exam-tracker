@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Kimi Notes – Space Exam Tracker</title>
+    <title>Kimi Notes – Space Study Tracker</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet" />
     <style>
         /* ============================================================
@@ -25,7 +25,6 @@
             position: relative;
         }
 
-        /* Galaxy Background with Nebula Effect */
         body::before {
             content: '';
             position: fixed;
@@ -55,7 +54,6 @@
             }
         }
 
-        /* Stars */
         .stars {
             position: fixed;
             top: 0;
@@ -84,7 +82,6 @@
             }
         }
 
-        /* Shooting Stars */
         .shooting-star {
             position: fixed;
             width: 2px;
@@ -135,9 +132,6 @@
             z-index: 1;
         }
 
-        /* ============================================================
-           GLASSMORPHISM UTILITY
-           ============================================================ */
         .glass {
             background: rgba(255, 255, 255, 0.04);
             backdrop-filter: blur(12px);
@@ -145,6 +139,211 @@
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 24px;
             box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        /* ============================================================
+           AUTH SECTION
+           ============================================================ */
+        .auth-section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(10, 14, 26, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            transition: 0.5s;
+        }
+
+        .auth-section.hidden {
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+        }
+
+        .auth-card {
+            background: rgba(20, 28, 50, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 40px;
+            border-radius: 28px;
+            max-width: 420px;
+            width: 100%;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .auth-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 40%, rgba(126, 184, 255, 0.05), transparent 60%);
+            pointer-events: none;
+        }
+
+        .auth-card .logo {
+            text-align: center;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-card .logo .logo-icon {
+            font-size: 48px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .auth-card .logo h1 {
+            font-size: 28px;
+            font-weight: 900;
+        }
+
+        .auth-card .logo h1 .highlight {
+            background: linear-gradient(135deg, #7eb8ff, #a78bfa, #f472b6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        .auth-card .logo p {
+            color: #8892b0;
+            font-size: 14px;
+            margin-top: 4px;
+        }
+
+        .auth-tabs {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 4px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: 12px;
+            background: transparent;
+            color: #8892b0;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .auth-tab.active {
+            background: rgba(126, 184, 255, 0.15);
+            color: #7eb8ff;
+        }
+
+        .auth-tab:hover {
+            color: #f0f4ff;
+        }
+
+        .auth-form {
+            display: none;
+            position: relative;
+            z-index: 1;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form .form-group {
+            margin-bottom: 16px;
+        }
+
+        .auth-form .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #8892b0;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .auth-form .form-group input {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
+            color: #f0f4ff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .auth-form .form-group input:focus {
+            outline: none;
+            border-color: #7eb8ff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .auth-form .form-group input::placeholder {
+            color: #4a5568;
+        }
+
+        .btn-auth {
+            width: 100%;
+            padding: 14px;
+            border-radius: 16px;
+            border: none;
+            background: linear-gradient(135deg, #7eb8ff, #a78bfa);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 8px;
+        }
+
+        .btn-auth:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(126, 184, 255, 0.25);
+        }
+
+        .auth-error {
+            color: #f87171;
+            font-size: 13px;
+            margin-top: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .auth-error.show {
+            display: block;
         }
 
         /* ============================================================
@@ -216,16 +415,6 @@
             animation: gradientShift 4s ease-in-out infinite;
         }
 
-        @keyframes gradientShift {
-            0%,
-            100% {
-                background-position: 0% 50%;
-            }
-            50% {
-                background-position: 100% 50%;
-            }
-        }
-
         .logo-text small {
             font-size: 14px;
             font-weight: 400;
@@ -260,12 +449,10 @@
             font-size: 18px;
         }
 
-        .btn-export,
-        .btn-import,
-        .btn-memories {
-            background: rgba(255, 255, 255, 0.06);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            color: #ccd6f6;
+        .btn-logout {
+            background: rgba(248, 113, 113, 0.1);
+            border: 1px solid rgba(248, 113, 113, 0.2);
+            color: #f87171;
             padding: 8px 18px;
             border-radius: 40px;
             cursor: pointer;
@@ -275,19 +462,374 @@
             transition: 0.3s;
         }
 
-        .btn-export:hover,
-        .btn-import:hover,
-        .btn-memories:hover {
-            background: rgba(126, 184, 255, 0.15);
-            border-color: #7eb8ff;
-            color: #fff;
+        .btn-logout:hover {
+            background: rgba(248, 113, 113, 0.2);
             transform: translateY(-2px);
-            box-shadow: 0 0 30px rgba(126, 184, 255, 0.1);
+        }
+
+        .user-display {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(126, 184, 255, 0.08);
+            padding: 6px 16px 6px 12px;
+            border-radius: 40px;
+            border: 1px solid rgba(126, 184, 255, 0.1);
+        }
+
+        .user-display .avatar {
+            font-size: 24px;
+        }
+
+        .user-display .username {
+            font-weight: 600;
+            font-size: 14px;
+            color: #ccd6f6;
         }
 
         /* ============================================================
-           SUBJECTS
+           REST OF THE STYLES (SAME AS BEFORE)
            ============================================================ */
+        .sessions-section {
+            margin-bottom: 30px;
+        }
+
+        .sessions-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .sessions-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .timer-container {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .timer-container::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(126, 184, 255, 0.05), transparent 60%);
+            pointer-events: none;
+        }
+
+        .timer-display {
+            font-size: 72px;
+            font-weight: 900;
+            font-variant-numeric: tabular-nums;
+            background: linear-gradient(135deg, #7eb8ff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease-in-out infinite;
+            margin: 20px 0;
+            font-family: 'Inter', monospace;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timer-controls button {
+            padding: 12px 30px;
+            border-radius: 40px;
+            border: none;
+            font-family: 'Inter', sans-serif;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            color: #fff;
+        }
+
+        .btn-start {
+            background: linear-gradient(135deg, #34d399, #6ee7b7);
+        }
+
+        .btn-start:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(52, 211, 153, 0.3);
+        }
+
+        .btn-start.running {
+            background: linear-gradient(135deg, #fbbf24, #f59e0b);
+        }
+
+        .btn-stop {
+            background: linear-gradient(135deg, #f87171, #ef4444);
+        }
+
+        .btn-stop:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(248, 113, 113, 0.3);
+        }
+
+        .btn-reset {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .btn-reset:hover {
+            transform: scale(1.05);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .session-rating {
+            margin-top: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .stars-rating {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            font-size: 32px;
+            cursor: pointer;
+        }
+
+        .stars-rating .star {
+            transition: 0.3s;
+            color: #4a5568;
+        }
+
+        .stars-rating .star.active {
+            color: #fbbf24;
+            text-shadow: 0 0 30px rgba(251, 191, 36, 0.3);
+        }
+
+        .stars-rating .star:hover {
+            transform: scale(1.2);
+        }
+
+        .btn-save-session {
+            margin-top: 12px;
+            padding: 10px 24px;
+            border-radius: 40px;
+            border: none;
+            background: linear-gradient(135deg, #7eb8ff, #a78bfa);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+
+        .btn-save-session:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(126, 184, 255, 0.3);
+        }
+
+        .btn-save-session:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .session-history {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 24px;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+
+        .session-history h3 {
+            color: #ccd6f6;
+            margin-bottom: 16px;
+            font-weight: 600;
+            font-size: 18px;
+        }
+
+        .session-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            margin-bottom: 8px;
+            border-left: 3px solid #7eb8ff;
+            transition: 0.3s;
+        }
+
+        .session-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .session-item .session-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .session-item .session-duration {
+            font-weight: 700;
+            color: #f0f4ff;
+        }
+
+        .session-item .session-date {
+            font-size: 12px;
+            color: #8892b0;
+        }
+
+        .session-item .session-rating-display {
+            font-size: 20px;
+        }
+
+        .session-item .session-subject {
+            font-size: 12px;
+            color: #7eb8ff;
+            background: rgba(126, 184, 255, 0.1);
+            padding: 2px 10px;
+            border-radius: 20px;
+        }
+
+        .study-together-section {
+            margin-bottom: 30px;
+        }
+
+        .study-together-container {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 24px;
+            padding: 24px;
+        }
+
+        .search-users {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+
+        .search-users input {
+            flex: 1;
+            padding: 12px 16px;
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            background: rgba(255, 255, 255, 0.04);
+            color: #f0f4ff;
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            transition: 0.3s;
+        }
+
+        .search-users input:focus {
+            outline: none;
+            border-color: #7eb8ff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .search-users input::placeholder {
+            color: #4a5568;
+        }
+
+        .btn-search-user {
+            padding: 12px 24px;
+            border-radius: 14px;
+            border: none;
+            background: linear-gradient(135deg, #7eb8ff, #a78bfa);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-search-user:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(126, 184, 255, 0.3);
+        }
+
+        .user-results {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+        }
+
+        .user-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 16px;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .user-card:hover {
+            border-color: rgba(126, 184, 255, 0.3);
+            transform: translateY(-4px);
+        }
+
+        .user-card .user-avatar {
+            font-size: 40px;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .user-card .user-name {
+            font-weight: 700;
+            color: #f0f4ff;
+        }
+
+        .user-card .user-status {
+            font-size: 12px;
+            color: #34d399;
+            margin: 4px 0;
+        }
+
+        .user-card .user-level {
+            font-size: 12px;
+            color: #8892b0;
+        }
+
+        .btn-study-request {
+            margin-top: 8px;
+            padding: 6px 16px;
+            border-radius: 20px;
+            border: 1px solid #7eb8ff;
+            background: rgba(126, 184, 255, 0.1);
+            color: #7eb8ff;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            transition: 0.3s;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        .btn-study-request:hover {
+            background: rgba(126, 184, 255, 0.2);
+            transform: scale(1.05);
+        }
+
         .section-title {
             font-size: 22px;
             font-weight: 700;
@@ -332,17 +874,6 @@
             overflow: hidden;
         }
 
-        .subject-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 40%, rgba(126, 184, 255, 0.03), transparent 60%);
-            pointer-events: none;
-        }
-
         .subject-card:hover {
             transform: translateY(-6px) scale(1.01);
             border-color: rgba(126, 184, 255, 0.3);
@@ -362,11 +893,6 @@
             font-size: 20px;
             font-weight: 700;
             color: #f0f4ff;
-        }
-
-        .subject-card .emoji {
-            font-size: 30px;
-            filter: drop-shadow(0 0 15px rgba(126, 184, 255, 0.2));
         }
 
         .subject-card .stats-grid {
@@ -572,9 +1098,6 @@
             transform: scale(1.02);
         }
 
-        /* ============================================================
-           STATS CARDS
-           ============================================================ */
         .stats-cards {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
@@ -593,17 +1116,6 @@
             transition: 0.3s;
             position: relative;
             overflow: hidden;
-        }
-
-        .stat-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(126, 184, 255, 0.03), transparent 60%);
-            pointer-events: none;
         }
 
         .stat-card:hover {
@@ -631,9 +1143,6 @@
             letter-spacing: 0.5px;
         }
 
-        /* ============================================================
-           BADGES
-           ============================================================ */
         .badges-grid {
             display: flex;
             flex-wrap: wrap;
@@ -676,9 +1185,6 @@
             filter: grayscale(0.8);
         }
 
-        /* ============================================================
-           ANALYSIS
-           ============================================================ */
         .analysis-grid {
             display: grid;
             grid-template-columns: 2fr 1fr;
@@ -701,17 +1207,6 @@
             padding: 24px;
             position: relative;
             overflow: hidden;
-        }
-
-        .chart-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 70% 30%, rgba(126, 184, 255, 0.03), transparent 60%);
-            pointer-events: none;
         }
 
         .chart-container h3 {
@@ -774,17 +1269,6 @@
             overflow: hidden;
         }
 
-        .weak-topics-container::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 30% 60%, rgba(248, 113, 113, 0.05), transparent 60%);
-            pointer-events: none;
-        }
-
         .weak-topics-container h3 {
             color: #f87171;
             margin-bottom: 14px;
@@ -817,13 +1301,6 @@
         #weakTopicsList li .pct {
             color: #f87171;
             font-weight: 700;
-        }
-
-        /* ============================================================
-           MEMORIES SECTION
-           ============================================================ */
-        .memories-section {
-            margin-bottom: 30px;
         }
 
         .memories-grid {
@@ -945,9 +1422,24 @@
             font-size: 32px;
         }
 
-        /* ============================================================
-           MODALS
-           ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #8892b0;
+        }
+
+        .empty-state .big-emoji {
+            font-size: 64px;
+            display: block;
+            margin-bottom: 16px;
+        }
+
+        .empty-state h3 {
+            color: #ccd6f6;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
         .modal {
             display: none;
             position: fixed;
@@ -1071,9 +1563,6 @@
             box-shadow: 0 10px 40px rgba(126, 184, 255, 0.25);
         }
 
-        /* ============================================================
-           SCROLLBAR
-           ============================================================ */
         ::-webkit-scrollbar {
             width: 4px;
         }
@@ -1088,30 +1577,6 @@
             background: rgba(126, 184, 255, 0.3);
         }
 
-        /* ============================================================
-           EMPTY STATE
-           ============================================================ */
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #8892b0;
-        }
-
-        .empty-state .big-emoji {
-            font-size: 64px;
-            display: block;
-            margin-bottom: 16px;
-        }
-
-        .empty-state h3 {
-            color: #ccd6f6;
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
-
-        /* ============================================================
-           RESPONSIVE
-           ============================================================ */
         @media (max-width: 768px) {
             .header {
                 flex-direction: column;
@@ -1123,18 +1588,70 @@
             .header-stats {
                 justify-content: center;
             }
+            .timer-display {
+                font-size: 48px;
+            }
+            .auth-card {
+                padding: 24px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Stars Container -->
     <div class="stars" id="starsContainer"></div>
-
-    <!-- Shooting Stars -->
     <div id="shootingStarsContainer"></div>
 
-    <div class="app-container">
+    <!-- =================== AUTH SECTION =================== -->
+    <div class="auth-section" id="authSection">
+        <div class="auth-card">
+            <div class="logo">
+                <span class="logo-icon">🚀</span>
+                <h1><span class="highlight">Kimi</span> Notes</h1>
+                <p>✦ Your Space Study Tracker</p>
+            </div>
+
+            <div class="auth-tabs">
+                <button class="auth-tab active" data-tab="login" onclick="switchAuthTab('login')">Sign In</button>
+                <button class="auth-tab" data-tab="register" onclick="switchAuthTab('register')">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form class="auth-form active" id="loginForm" onsubmit="loginUser(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="loginUsername" placeholder="Enter your username" required />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter your password" required />
+                </div>
+                <div class="auth-error" id="loginError">Invalid username or password</div>
+                <button type="submit" class="btn-auth">🚀 Sign In</button>
+            </form>
+
+            <!-- Register Form -->
+            <form class="auth-form" id="registerForm" onsubmit="registerUser(event)">
+                <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" id="registerUsername" placeholder="Choose a username" required />
+                </div>
+                <div class="form-group">
+                    <label>Display Name</label>
+                    <input type="text" id="registerDisplayName" placeholder="Your full name" required />
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" id="registerPassword" placeholder="Choose a password (min 4 chars)" required minlength="4" />
+                </div>
+                <div class="auth-error" id="registerError">Username already exists</div>
+                <button type="submit" class="btn-auth">🌟 Create Account</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- =================== MAIN APP (Hidden until auth) =================== -->
+    <div class="app-container" id="appContainer" style="display:none;">
 
         <!-- =================== HEADER =================== -->
         <header class="header">
@@ -1146,18 +1663,79 @@
                 </span>
             </div>
             <div class="header-stats">
+                <div class="user-display">
+                    <span class="avatar" id="userAvatar">👤</span>
+                    <span class="username" id="userDisplayName">User</span>
+                </div>
                 <div class="stat-pill">
                     ⚡ <span class="num" id="totalXP">0</span> XP
                 </div>
                 <div class="stat-pill">
                     🎯 <span class="num" id="totalLevel">1</span>
                 </div>
+                <button class="btn-sessions" onclick="scrollToSessions()">⏱️ Sessions</button>
                 <button class="btn-memories" onclick="scrollToMemories()">📦 Memories</button>
                 <button class="btn-export" onclick="exportData()">📤 Export</button>
                 <button class="btn-import" onclick="document.getElementById('importFile').click()">📥 Import</button>
                 <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)" />
+                <button class="btn-logout" onclick="logoutUser()">🚪 Logout</button>
             </div>
         </header>
+
+        <!-- =================== STUDY TOGETHER =================== -->
+        <section class="study-together-section">
+            <h2 class="section-title">👥 <span>Study Together</span></h2>
+            <div class="study-together-container">
+                <div class="search-users">
+                    <input type="text" id="userSearch" placeholder="🔍 Search for a user..." />
+                    <button class="btn-search-user" onclick="searchUsers()">Search</button>
+                </div>
+                <div class="user-results" id="userResults">
+                    <div class="empty-state" style="grid-column:1/-1;">
+                        <span class="big-emoji">🔭</span>
+                        <h3>Find study partners</h3>
+                        <p style="color:#8892b0;">Search for users to study together in real-time!</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =================== SESSIONS =================== -->
+        <section class="sessions-section" id="sessionsSection">
+            <h2 class="section-title">⏱️ <span>Study Sessions</span></h2>
+            <div class="sessions-grid">
+                <div class="timer-container">
+                    <h3 style="color:#ccd6f6; margin-bottom:8px; position:relative; z-index:1;">Focus Timer</h3>
+                    <div class="timer-display" id="timerDisplay">00:00:00</div>
+                    <div class="timer-controls">
+                        <button class="btn-start" id="btnStartTimer" onclick="startTimer()">▶ Start</button>
+                        <button class="btn-stop" onclick="stopTimer()">⏹ Stop</button>
+                        <button class="btn-reset" onclick="resetTimer()">⟲ Reset</button>
+                    </div>
+                    <div class="session-rating">
+                        <div style="color:#8892b0; font-size:14px; margin-bottom:8px;">Rate this session</div>
+                        <div class="stars-rating" id="starsRating">
+                            <span class="star" data-value="1" onclick="setRating(1)">☆</span>
+                            <span class="star" data-value="2" onclick="setRating(2)">☆</span>
+                            <span class="star" data-value="3" onclick="setRating(3)">☆</span>
+                            <span class="star" data-value="4" onclick="setRating(4)">☆</span>
+                            <span class="star" data-value="5" onclick="setRating(5)">☆</span>
+                        </div>
+                        <button class="btn-save-session" id="btnSaveSession" onclick="saveSession()" disabled>💾 Save Session</button>
+                    </div>
+                </div>
+                <div class="session-history">
+                    <h3>📋 Session History</h3>
+                    <div id="sessionHistoryList">
+                        <div class="empty-state">
+                            <span class="big-emoji">📖</span>
+                            <h3>No sessions yet</h3>
+                            <p style="color:#8892b0; font-size:14px;">Start your first study session!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <!-- =================== SUBJECTS =================== -->
         <section>
@@ -1313,29 +1891,154 @@
     <!-- ============================================================ -->
     <script>
         // ============================================================
-        //  DATA LAYER
+        //  USERS DATABASE (Simulated - stored in localStorage)
         // ============================================================
-        let data = {
-            subjects: {},
-            memories: []
-        };
+        let users = {};
+        let currentUser = null;
 
-        const BADGES_DEF = [
-            { id: 'first', label: '🌱 First Step', condition: (d) => getTotalTests(d) >= 1 },
-            { id: 'warrior', label: '🔥 Test Warrior', condition: (d) => getTotalTests(d) >= 5 },
-            { id: 'ninety', label: '🏆 90% Club', condition: (d) => getOverallAvg(d) >= 0.9 },
-            { id: 'master', label: '👑 Academic Master', condition: (d) => getTotalTests(d) >= 20 },
-        ];
+        function loadUsers() {
+            try {
+                const raw = localStorage.getItem('kimiUsers');
+                if (raw) {
+                    users = JSON.parse(raw);
+                } else {
+                    users = {};
+                    // Create a default user for demo
+                    users['demo'] = {
+                        username: 'demo',
+                        displayName: 'Demo User',
+                        password: 'demo123',
+                        avatar: '👤',
+                        data: {
+                            subjects: {},
+                            memories: [],
+                            sessions: []
+                        }
+                    };
+                    saveUsers();
+                }
+            } catch (e) {
+                users = {};
+            }
+        }
+
+        function saveUsers() {
+            try {
+                localStorage.setItem('kimiUsers', JSON.stringify(users));
+            } catch (e) { /* ignore */ }
+        }
 
         // ============================================================
-        //  INIT
+        //  AUTH FUNCTIONS
         // ============================================================
-        function init() {
-            createStars();
-            createShootingStars();
-            loadFromStorage();
-            renderAll();
-            setInterval(saveToStorage, 5000);
+        function switchAuthTab(tab) {
+            document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+            document.querySelector(`.auth-tab[data-tab="${tab}"]`).classList.add('active');
+            document.querySelectorAll('.auth-form').forEach(f => f.classList.remove('active'));
+            document.getElementById(tab === 'login' ? 'loginForm' : 'registerForm').classList.add('active');
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('registerError').classList.remove('show');
+        }
+
+        function registerUser(e) {
+            e.preventDefault();
+            const username = document.getElementById('registerUsername').value.trim();
+            const displayName = document.getElementById('registerDisplayName').value.trim();
+            const password = document.getElementById('registerPassword').value;
+
+            if (!username || !displayName || !password) {
+                alert('❌ Please fill all fields');
+                return;
+            }
+
+            if (users[username]) {
+                document.getElementById('registerError').textContent = '❌ Username already exists!';
+                document.getElementById('registerError').classList.add('show');
+                return;
+            }
+
+            users[username] = {
+                username: username,
+                displayName: displayName,
+                password: password,
+                avatar: '👤',
+                data: {
+                    subjects: {},
+                    memories: [],
+                    sessions: []
+                }
+            };
+
+            saveUsers();
+            document.getElementById('registerError').classList.remove('show');
+            alert('✅ Account created successfully! Please sign in.');
+            switchAuthTab('login');
+            document.getElementById('loginUsername').value = username;
+            document.getElementById('registerUsername').value = '';
+            document.getElementById('registerDisplayName').value = '';
+            document.getElementById('registerPassword').value = '';
+        }
+
+        function loginUser(e) {
+            e.preventDefault();
+            const username = document.getElementById('loginUsername').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!users[username]) {
+                document.getElementById('loginError').textContent = '❌ User not found';
+                document.getElementById('loginError').classList.add('show');
+                return;
+            }
+
+            if (users[username].password !== password) {
+                document.getElementById('loginError').textContent = '❌ Incorrect password';
+                document.getElementById('loginError').classList.add('show');
+                return;
+            }
+
+            currentUser = username;
+            document.getElementById('loginError').classList.remove('show');
+            document.getElementById('authSection').classList.add('hidden');
+            document.getElementById('appContainer').style.display = 'block';
+
+            // Load user data
+            window.userData = users[currentUser].data;
+            document.getElementById('userDisplayName').textContent = users[currentUser].displayName;
+            document.getElementById('userAvatar').textContent = users[currentUser].avatar || '👤';
+
+            // Initialize and render
+            initApp();
+        }
+
+        function logoutUser() {
+            if (!confirm('🚪 Are you sure you want to logout?')) return;
+            currentUser = null;
+            window.userData = null;
+            document.getElementById('authSection').classList.remove('hidden');
+            document.getElementById('appContainer').style.display = 'none';
+            // Reset timer
+            if (timerState.interval) {
+                clearInterval(timerState.interval);
+                timerState.running = false;
+                timerState.seconds = 0;
+                document.getElementById('timerDisplay').textContent = '00:00:00';
+                document.getElementById('btnStartTimer').textContent = '▶ Start';
+                document.getElementById('btnStartTimer').classList.remove('running');
+            }
+        }
+
+        // ============================================================
+        //  DATA LAYER (User-specific)
+        // ============================================================
+        function getData() {
+            return window.userData || { subjects: {}, memories: [], sessions: [] };
+        }
+
+        function saveData() {
+            if (currentUser && users[currentUser]) {
+                users[currentUser].data = window.userData;
+                saveUsers();
+            }
         }
 
         // ============================================================
@@ -1373,75 +2076,10 @@
         }
 
         // ============================================================
-        //  STORAGE
-        // ============================================================
-        function saveToStorage() {
-            try {
-                localStorage.setItem('kimiTrackerData', JSON.stringify(data));
-            } catch (e) { /* ignore */ }
-        }
-
-        function loadFromStorage() {
-            try {
-                const raw = localStorage.getItem('kimiTrackerData');
-                if (raw) {
-                    const parsed = JSON.parse(raw);
-                    if (parsed.subjects !== undefined) {
-                        data = parsed;
-                        if (!data.memories) data.memories = [];
-                        return;
-                    }
-                }
-            } catch (e) { /* ignore */ }
-
-            data = {
-                subjects: {},
-                memories: []
-            };
-            saveToStorage();
-        }
-
-        // ============================================================
-        //  EXPORT / IMPORT
-        // ============================================================
-        function exportData() {
-            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = `kimi_backup_${new Date().toISOString().slice(0, 10)}.json`;
-            a.click();
-            URL.revokeObjectURL(url);
-        }
-
-        function importData(event) {
-            const file = event.target.files[0];
-            if (!file) return;
-            const reader = new FileReader();
-            reader.onload = (e) => {
-                try {
-                    const imported = JSON.parse(e.target.result);
-                    if (imported.subjects !== undefined) {
-                        data = imported;
-                        if (!data.memories) data.memories = [];
-                        saveToStorage();
-                        renderAll();
-                        alert('✅ Data imported successfully!');
-                    } else {
-                        alert('❌ Invalid file');
-                    }
-                } catch (err) {
-                    alert('❌ Error reading file');
-                }
-            };
-            reader.readAsText(file);
-            event.target.value = '';
-        }
-
-        // ============================================================
         //  HELPERS
         // ============================================================
         function getTestsForSubject(subject) {
+            const data = getData();
             return data.subjects[subject]?.tests || [];
         }
 
@@ -1509,6 +2147,9 @@
                     }
                 }
             }
+            for (const session of dataObj.sessions || []) {
+                xp += Math.floor(session.duration / 60) * 5;
+            }
             return xp;
         }
 
@@ -1527,13 +2168,14 @@
             const result = [];
             const totalTests = getTotalTests(dataObj);
             const avg = getOverallAvg(dataObj);
-            for (const b of BADGES_DEF) {
-                let unlocked = false;
-                if (b.id === 'first') unlocked = totalTests >= 1;
-                else if (b.id === 'warrior') unlocked = totalTests >= 5;
-                else if (b.id === 'ninety') unlocked = avg >= 0.9;
-                else if (b.id === 'master') unlocked = totalTests >= 20;
-                result.push({ ...b, unlocked });
+            const badges = [
+                { id: 'first', label: '🌱 First Step', condition: totalTests >= 1 },
+                { id: 'warrior', label: '🔥 Test Warrior', condition: totalTests >= 5 },
+                { id: 'ninety', label: '🏆 90% Club', condition: avg >= 0.9 },
+                { id: 'master', label: '👑 Academic Master', condition: totalTests >= 20 },
+            ];
+            for (const b of badges) {
+                result.push({ ...b, unlocked: b.condition });
             }
             return result;
         }
@@ -1562,8 +2204,204 @@
             return result.slice(0, 5);
         }
 
+        function formatTime(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+        }
+
+        function formatDuration(seconds) {
+            const h = Math.floor(seconds / 3600);
+            const m = Math.floor((seconds % 3600) / 60);
+            const s = seconds % 60;
+            let parts = [];
+            if (h > 0) parts.push(`${h}h`);
+            if (m > 0) parts.push(`${m}m`);
+            if (s > 0 || parts.length === 0) parts.push(`${s}s`);
+            return parts.join(' ');
+        }
+
         // ============================================================
-        //  RENDER
+        //  TIMER FUNCTIONS
+        // ============================================================
+        let timerState = {
+            running: false,
+            seconds: 0,
+            interval: null,
+            rating: 0
+        };
+
+        function startTimer() {
+            if (timerState.running) return;
+            timerState.running = true;
+            document.getElementById('btnStartTimer').textContent = '⏸ Pause';
+            document.getElementById('btnStartTimer').classList.add('running');
+            timerState.interval = setInterval(() => {
+                timerState.seconds++;
+                document.getElementById('timerDisplay').textContent = formatTime(timerState.seconds);
+                document.getElementById('btnSaveSession').disabled = false;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (!timerState.running) return;
+            timerState.running = false;
+            clearInterval(timerState.interval);
+            document.getElementById('btnStartTimer').textContent = '▶ Resume';
+            document.getElementById('btnStartTimer').classList.remove('running');
+        }
+
+        function resetTimer() {
+            stopTimer();
+            timerState.seconds = 0;
+            timerState.rating = 0;
+            document.getElementById('timerDisplay').textContent = '00:00:00';
+            document.getElementById('btnStartTimer').textContent = '▶ Start';
+            document.getElementById('btnStartTimer').classList.remove('running');
+            document.getElementById('btnSaveSession').disabled = true;
+            resetStars();
+        }
+
+        function setRating(value) {
+            timerState.rating = value;
+            const stars = document.querySelectorAll('.stars-rating .star');
+            stars.forEach((star, index) => {
+                if (index < value) {
+                    star.textContent = '★';
+                    star.classList.add('active');
+                } else {
+                    star.textContent = '☆';
+                    star.classList.remove('active');
+                }
+            });
+        }
+
+        function resetStars() {
+            const stars = document.querySelectorAll('.stars-rating .star');
+            stars.forEach(star => {
+                star.textContent = '☆';
+                star.classList.remove('active');
+            });
+        }
+
+        function saveSession() {
+            if (timerState.seconds < 60) {
+                alert('❌ Session must be at least 1 minute to save!');
+                return;
+            }
+            if (timerState.rating === 0) {
+                alert('❌ Please rate your session!');
+                return;
+            }
+
+            const data = getData();
+            if (!data.sessions) data.sessions = [];
+
+            data.sessions.push({
+                date: new Date().toISOString(),
+                duration: timerState.seconds,
+                rating: timerState.rating,
+                subject: 'General'
+            });
+
+            window.userData = data;
+            saveData();
+            renderAll();
+            resetTimer();
+            alert('✅ Session saved successfully! 🎉');
+        }
+
+        function renderSessions() {
+            const data = getData();
+            const list = document.getElementById('sessionHistoryList');
+
+            if (!data.sessions || data.sessions.length === 0) {
+                list.innerHTML = `
+                            <div class="empty-state">
+                                <span class="big-emoji">📖</span>
+                                <h3>No sessions yet</h3>
+                                <p style="color:#8892b0; font-size:14px;">Start your first study session!</p>
+                            </div>
+                        `;
+                return;
+            }
+
+            list.innerHTML = data.sessions.slice().reverse().map(s => {
+                const stars = '★'.repeat(s.rating) + '☆'.repeat(5 - s.rating);
+                return `
+                            <div class="session-item">
+                                <div class="session-info">
+                                    <span class="session-duration">⏱️ ${formatDuration(s.duration)}</span>
+                                    <span class="session-date">📅 ${new Date(s.date).toLocaleDateString()}</span>
+                                    <span class="session-subject">📚 ${s.subject || 'General'}</span>
+                                </div>
+                                <span class="session-rating-display">${stars}</span>
+                            </div>
+                        `;
+            }).join('');
+        }
+
+        // ============================================================
+        //  STUDY TOGETHER - Uses real users from database
+        // ============================================================
+        function searchUsers() {
+            const query = document.getElementById('userSearch').value.toLowerCase().trim();
+            const results = document.getElementById('userResults');
+
+            if (!query) {
+                results.innerHTML = `
+                            <div class="empty-state" style="grid-column:1/-1;">
+                                <span class="big-emoji">🔭</span>
+                                <h3>Find study partners</h3>
+                                <p style="color:#8892b0;">Search for real users to study together!</p>
+                            </div>
+                        `;
+                return;
+            }
+
+            const filtered = Object.values(users).filter(u =>
+                u.username !== currentUser &&
+                (u.username.toLowerCase().includes(query) ||
+                    u.displayName.toLowerCase().includes(query))
+            );
+
+            if (filtered.length === 0) {
+                results.innerHTML = `
+                            <div class="empty-state" style="grid-column:1/-1;">
+                                <span class="big-emoji">🔍</span>
+                                <h3>No users found</h3>
+                                <p style="color:#8892b0;">Try a different search term</p>
+                            </div>
+                        `;
+                return;
+            }
+
+            results.innerHTML = filtered.map(user => {
+                const xp = getTotalXP(user.data);
+                const level = getLevel(xp);
+                const status = Math.random() > 0.3 ? 'online' : (Math.random() > 0.5 ? 'studying' : 'offline');
+                const statusText = status === 'online' ? '🟢 Online' : status === 'studying' ? '📚 Studying' : '⚫ Offline';
+                return `
+                            <div class="user-card">
+                                <span class="user-avatar">${user.avatar || '👤'}</span>
+                                <div class="user-name">${user.displayName}</div>
+                                <div class="user-status">${statusText}</div>
+                                <div class="user-level">Level ${level} • ${getTotalTests(user.data)} tests</div>
+                                <button class="btn-study-request" onclick="requestStudy('${user.displayName}')">
+                                    📚 Study Together
+                                </button>
+                            </div>
+                        `;
+            }).join('');
+        }
+
+        function requestStudy(userName) {
+            alert(`🎉 Study request sent to ${userName}!\n\n(Simulated feature - In a real app, this would send a real-time notification)`);
+        }
+
+        // ============================================================
+        //  RENDER FUNCTIONS
         // ============================================================
         function renderAll() {
             renderSubjects();
@@ -1572,9 +2410,11 @@
             renderAnalysis();
             renderHeaderStats();
             renderMemories();
+            renderSessions();
         }
 
         function renderSubjects() {
+            const data = getData();
             const grid = document.getElementById('subjectsGrid');
             grid.innerHTML = '';
 
@@ -1632,6 +2472,7 @@
         }
 
         function renderStats() {
+            const data = getData();
             const total = getTotalTests(data);
             const completed = getCompletedTests(data);
             const avg = getOverallAvg(data);
@@ -1643,6 +2484,7 @@
         }
 
         function renderHeaderStats() {
+            const data = getData();
             const xp = getTotalXP(data);
             const level = getLevel(xp);
             document.getElementById('totalXP').textContent = xp;
@@ -1650,6 +2492,7 @@
         }
 
         function renderBadges() {
+            const data = getData();
             const grid = document.getElementById('badgesGrid');
             const badges = getBadges(data);
             grid.innerHTML = badges.map(b =>
@@ -1658,6 +2501,7 @@
         }
 
         function renderAnalysis() {
+            const data = getData();
             const chart = document.getElementById('performanceChart');
             const avg = getOverallAvg(data);
             const weak = getWeakTopics(data);
@@ -1716,9 +2560,10 @@
         }
 
         function renderMemories() {
+            const data = getData();
             const grid = document.getElementById('memoriesGrid');
 
-            if (data.memories.length === 0) {
+            if (!data.memories || data.memories.length === 0) {
                 grid.innerHTML = `
                             <div class="empty-state" style="grid-column: 1 / -1;">
                                 <span class="big-emoji">🌟</span>
@@ -1743,7 +2588,7 @@
         }
 
         // ============================================================
-        //  MODAL FUNCTIONS
+        //  ACTIONS
         // ============================================================
         function openModal(modalId, subject = '') {
             if (modalId === 'testModal') {
@@ -1773,15 +2618,17 @@
             document.getElementById('memoryModal').classList.add('show');
         }
 
+        function scrollToSessions() {
+            document.getElementById('sessionsSection').scrollIntoView({ behavior: 'smooth' });
+        }
+
         function scrollToMemories() {
             document.getElementById('memoriesSection').scrollIntoView({ behavior: 'smooth' });
         }
 
-        // ============================================================
-        //  ACTIONS
-        // ============================================================
         function addTest(e) {
             e.preventDefault();
+            const data = getData();
             const subject = document.getElementById('subjectName').value;
             const title = document.getElementById('testTitle').value.trim();
             const topic = document.getElementById('testTopic').value.trim();
@@ -1812,23 +2659,28 @@
                 weakTopic
             });
 
-            saveToStorage();
+            window.userData = data;
+            saveData();
             renderAll();
             closeModal('testModal');
         }
 
         function deleteTest(subject, title) {
             if (!confirm(`❌ Delete test "${title}"?`)) return;
+            const data = getData();
             const tests = data.subjects[subject]?.tests || [];
             data.subjects[subject].tests = tests.filter(t => t.title !== title);
-            saveToStorage();
+            window.userData = data;
+            saveData();
             renderAll();
         }
 
         function deleteSubject(subject) {
             if (!confirm(`❌ Delete subject "${subject}" and all its tests?`)) return;
+            const data = getData();
             delete data.subjects[subject];
-            saveToStorage();
+            window.userData = data;
+            saveData();
             renderAll();
         }
 
@@ -1836,17 +2688,20 @@
             const name = prompt('📚 Enter subject name:');
             if (!name || name.trim() === '') return;
             const emoji = prompt('🎨 Enter an emoji for this subject (optional):') || '📚';
+            const data = getData();
             if (data.subjects[name.trim()]) {
                 alert('❌ Subject already exists');
                 return;
             }
             data.subjects[name.trim()] = { emoji, tests: [] };
-            saveToStorage();
+            window.userData = data;
+            saveData();
             renderAll();
         }
 
         function addMemory(e) {
             e.preventDefault();
+            const data = getData();
             const title = document.getElementById('memoryTitle').value.trim();
             const date = document.getElementById('memoryDate').value;
             const image = document.getElementById('memoryImage').value.trim();
@@ -1857,6 +2712,8 @@
                 return;
             }
 
+            if (!data.memories) data.memories = [];
+
             data.memories.push({
                 title,
                 date,
@@ -1864,33 +2721,89 @@
                 note: note || ''
             });
 
-            saveToStorage();
+            window.userData = data;
+            saveData();
             renderAll();
             closeModal('memoryModal');
         }
 
         function deleteMemory(index) {
             if (!confirm('❌ Delete this memory?')) return;
+            const data = getData();
             data.memories.splice(index, 1);
-            saveToStorage();
+            window.userData = data;
+            saveData();
             renderAll();
         }
 
-        // ============================================================
-        //  CLOSE MODALS ON BACKDROP CLICK
-        // ============================================================
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', function(e) {
-                if (e.target === this) {
-                    this.classList.remove('show');
+        function exportData() {
+            const data = getData();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `kimi_backup_${currentUser}_${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importData(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (imported.subjects !== undefined) {
+                        window.userData = imported;
+                        if (!window.userData.memories) window.userData.memories = [];
+                        if (!window.userData.sessions) window.userData.sessions = [];
+                        saveData();
+                        renderAll();
+                        alert('✅ Data imported successfully!');
+                    } else {
+                        alert('❌ Invalid file');
+                    }
+                } catch (err) {
+                    alert('❌ Error reading file');
                 }
-            });
-        });
+            };
+            reader.readAsText(file);
+            event.target.value = '';
+        }
 
         // ============================================================
-        //  START
+        //  INIT APP (called after login)
         // ============================================================
-        document.addEventListener('DOMContentLoaded', init);
+        function initApp() {
+            renderAll();
+            setInterval(saveData, 5000);
+        }
+
+        // ============================================================
+        //  INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', function() {
+            createStars();
+            createShootingStars();
+            loadUsers();
+
+            // Check if user is already logged in (session persistence)
+            // For simplicity, we start with auth screen
+
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('show');
+                    }
+                });
+            });
+
+            // Auto-login with demo account for quick testing
+            // Comment this out for production
+            // document.getElementById('loginUsername').value = 'demo';
+            // document.getElementById('loginPassword').value = 'demo123';
+        });
     </script>
 
 </body>
